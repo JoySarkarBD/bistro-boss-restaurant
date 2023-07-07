@@ -1,0 +1,31 @@
+const createError = require('http-errors');
+
+//not found handler
+const notFoundHandler = (req, res, next) => {
+    return next(createError(404, 'Your content was not found'))
+}
+
+//error handler
+const errorHandler = (err, req, res, next) => {
+    if (res?.headersSent) {
+        return next(err)
+    } else {
+        const errCode = err.status || 500
+        if (err.message) {
+            res.status(errCode).json({
+                status: 'failed',
+                data: err.message
+            })
+        } else {
+            res.status(errCode).json({
+                status: 'failed',
+                data: 'Internal server error'
+            })
+        }
+    }
+}
+
+module.exports = {
+    notFoundHandler,
+    errorHandler
+}
