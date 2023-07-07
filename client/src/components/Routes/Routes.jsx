@@ -13,7 +13,7 @@ const router = createBrowserRouter([
         element: <UpdateProfile />,
       },
       {
-        path: "verifyUser/:userEmail",
+        path: "verifyUser/:userId",
         element: <VerifyUser />,
       },
     ],

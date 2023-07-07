@@ -10,10 +10,10 @@ router.post('/register', emailValidate, validateErrorResult, registerUser);
 
 
 // update user
-router.put('/update-user', ValidateUpdateUser, validateErrorResult, updateUser);
+router.put('/update-user/:userId', ValidateUpdateUser, validateErrorResult, updateUser);
 
 // verify user email
-router.put('/verify-email-address/:email', verifyEmail)
+router.put('/verify-email/:id', verifyEmail)
 
 // module exports
 module.exports = router;

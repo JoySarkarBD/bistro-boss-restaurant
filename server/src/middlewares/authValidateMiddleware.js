@@ -24,10 +24,6 @@ const emailValidate = [
 ]
 
 
-// catch email field error
-
-
-
 // update user validator
 
 const ValidateUpdateUser = [
