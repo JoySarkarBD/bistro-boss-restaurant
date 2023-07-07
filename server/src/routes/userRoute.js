@@ -1,7 +1,13 @@
+// External imports
+const router = require('express').Router();
+
+// Internal imports
 const { registerUser } = require('../controllers/userController');
 
-const router = require('express').Router();
+
 
 router.get('/user', registerUser);
 
+
+// module exports
 module.exports = router;

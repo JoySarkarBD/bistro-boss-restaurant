@@ -1,5 +1,8 @@
+// External imports
 const mongoose = require('mongoose');
 
+
+// create user schema
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -29,8 +32,10 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     }
-});
+}, { timestamps: true, versionKey: false });
 
 const User = mongoose.model('User', userSchema);
 
+
+// module exports
 module.exports = User;

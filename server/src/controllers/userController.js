@@ -1,3 +1,4 @@
+// Internal imports
 const User = require('../models/UserModel');
 
 // Register a new user
