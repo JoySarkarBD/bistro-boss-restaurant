@@ -37,13 +37,13 @@ Start the server
 To run this project, you will need to add the following environment variables to your .env file in server directory.
 
 
-| Variables | Type     |
-| :-------- | :------- | 
-| `PORT` | `number` |
-| `DB_CONNECTION_URI` | `String` |
-| `BASE_URL` | `String` |
-| `NODE_MAILER_EMAIL` | `String` |
-| `NODE_MAILER_EMAIL_PASSWORD` | `String` |
+| Variables | 
+| :-------- | 
+| `PORT` | 
+| `DB_CONNECTION_URI` | 
+| `BASE_URL` | 
+| `NODE_MAILER_EMAIL` | 
+| `NODE_MAILER_EMAIL_PASSWORD` |
 
 ### Run Locally Client Side
 
