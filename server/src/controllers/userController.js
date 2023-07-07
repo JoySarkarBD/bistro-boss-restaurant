@@ -1,5 +1,4 @@
 // Internal imports
-const User = require('../models/UserModel');
 const UserModel = require("../models/UserModel");
 const sendEmail = require("../helpers/sendEmail");
 
@@ -21,7 +20,7 @@ const registerUser = async (req, res) => {
             
             `
             // mail info
-            const mailInfo = {receivers: [newUser?.email], emailSubject: `Verify Email`, emailText}
+            const mailInfo = { receivers: [newUser?.email], emailSubject: `Verify Email`, emailText }
 
             //     send mail for verification
             const mailResult = await sendEmail(mailInfo);
@@ -53,9 +52,6 @@ const registerUser = async (req, res) => {
     }
 };
 
-
-
-
 // update user
 const updateUser = async (req, res, next) => {
     try {
@@ -69,7 +65,30 @@ const updateUser = async (req, res, next) => {
     }
 }
 
+// verify email
+const verifyEmail = async (req, res, next) => {
+    try {
+        const email = req.params.email;
+
+        // Find the user by email in the database and update the "isVerified" field
+        const user = await UserModel.findOneAndUpdate(
+            { email },
+            { $set: { isVerified: true } },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ message: 'Email verified successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     registerUser,
-    updateUser
+    updateUser,
+    verifyEmail
 }
