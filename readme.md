@@ -37,7 +37,7 @@ Start the server
 To run this project, you will need to add the following environment variables to your .env file in server directory.
 
 
-| Parameter | Type     |
+| Variables | Type     |
 | :-------- | :------- | 
 | `PORT` | `number` |
 | `DB_CONNECTION_URI` | `String` |
