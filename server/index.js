@@ -1,6 +1,5 @@
 // External imports
 const dotenv = require('dotenv');
-const mongoose = require('mongoose');
 dotenv.config();
 
 
@@ -8,7 +7,9 @@ dotenv.config();
 const app = require('./app');
 const connectDatabase = require('./src/db/server');
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server running on port ${process.env.PORT}`);
+const port = process.env.PORT || 5000
+
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
     connectDatabase();
 });

@@ -9,22 +9,28 @@
     "start": "NODE_ENV=production node index.js"
   },
   "keywords": [],
-  "author": [
-    "Joy Sarkar",
-    "Arunabh Newar",
-    "Dipto Das"
-  ],
+  "author": {
+    "name-1": "Joy Sarkar",
+    "name-2": "Arunabh Newar",
+    "name-3": "Dipto Das",
+    "name-4": "Mehedi Hasan"
+  },
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-mongo-sanitize": "^2.2.0",
     "express-rate-limit": "^6.7.1",
+    "express-validator": "^7.0.1",
     "helmet": "^7.0.0",
     "hpp": "^0.2.3",
+    "http-errors": "^2.0.0",
+    "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.3.2",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.3"
   }
 }
