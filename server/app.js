@@ -45,6 +45,5 @@ app.use(limiter);
 readdirSync('./src/routes').map(r => app.use(`/api/v1`, require(`./src/routes/${r}`)));
 
 
-
 // module exports
 module.exports = app;
