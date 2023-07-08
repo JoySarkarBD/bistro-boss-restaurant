@@ -82,7 +82,7 @@ const Categories = () => {
     <section className="my-24">
       <div className='w-10/12 mx-auto'>
         <Swiper
-          initialSlide={categoriesSlide.length / 2}
+          initialSlide={Math.floor(categoriesSlide.length / 2)}
           effect={'coverflow'}
           grabCursor={true}
           centeredSlides={true}
