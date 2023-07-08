@@ -1,0 +1,12 @@
+.auth_section {
+  background-image: url(../../assets/others/authentication.png);
+  height: 100vh;
+  width: 100vw;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.auth_shadow {
+  box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.25);
+}

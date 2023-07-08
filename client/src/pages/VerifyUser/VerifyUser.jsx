@@ -26,14 +26,6 @@ const VerifyUser = () => {
     }
     veriFiedEmail();
   }, [navigate, userId]);
-
-  return (
-    <div>
-      <>
-        <h1>Verified user</h1>
-      </>
-    </div>
-  );
 };
 
 export default VerifyUser;
