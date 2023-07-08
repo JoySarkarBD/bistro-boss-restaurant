@@ -8,11 +8,11 @@ const Login = () => {
   return (
     <section className='text-gray-400 body-font bg-authBg flex min-h-screen w-full justify-center items-center'>
       <div className='container px-5 py-24 mx-auto flex flex-wrap items-center'>
-        <div className='lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0'>
+        <div className='lg:w-3/5 md:w-3/5 md:pr-16 lg:pr-0 pr-0'>
           <img src={signUpImg} alt='signUp-image' className='w-2/3 mx-auto' />
         </div>
-        <div className='lg:w-2/6 md:w-1/2 bg-transparent border-2 border-sky-500 bg-opacity-50 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0'>
-          <h2 className='text-lime-700 text-lg font-medium title-font mb-5 '>
+        <div className='lg:w-2/5	 md:w-2/5	 bg-transparent border-2 border-indigo-500 bg-opacity-50 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0'>
+          <h2 className='text-4xl text-black font-semibold title-font mb-5'>
             Log In
           </h2>
           <div className='relative mb-4'>
@@ -22,8 +22,8 @@ const Login = () => {
             <TextInput title='Password' />
           </div>
           <FormBtn type='submit' title='submit' />
-          <p className='text-center text-stone-800 cursor-pointer text-xs mt-3'>
-            New here? <Link to="/register">Create a New Account</Link>
+          <p className='text-center text-[#D99904] cursor-pointer text-base mt-3'>
+            New here? <Link to="/register" className="font-semibold">Create a New Account</Link>
           </p>
         </div>
       </div>

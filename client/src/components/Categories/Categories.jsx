@@ -1,5 +1,5 @@
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from "swiper/react";
 import img2 from "./../../assets/home/slide-2.jpg";
 import img3 from "./../../assets/home/slide-3.jpg";
 import img4 from "./../../assets/home/slide-4.jpg";
@@ -13,8 +13,9 @@ import "swiper/css/pagination";
 import "./Categories.css";
 
 // import required modules
-import { EffectCoverflow, Pagination } from 'swiper/modules';
+import { EffectCoverflow, Pagination } from "swiper/modules";
 
+import SectionTitle from "../Shared/SectionTitle";
 import SingleCategories from "./SingleCategories";
 
 //create slider data
@@ -77,16 +78,19 @@ const categoriesSlide = [
 ];
 
 const Categories = () => {
-
   return (
     <section className="my-24">
-      <div className='w-10/12 mx-auto'>
+      <SectionTitle
+        subheading="---From 11:00am to 10:00pm---"
+        heading="ORDER ONLINE"
+      />
+      <div className="w-10/12 mx-auto">
         <Swiper
           initialSlide={Math.floor(categoriesSlide.length / 2)}
-          effect={'coverflow'}
+          effect={"coverflow"}
           grabCursor={true}
           centeredSlides={true}
-          slidesPerView={'auto'}
+          slidesPerView={"auto"}
           coverflowEffect={{
             rotate: 50,
             stretch: 0,
@@ -120,7 +124,7 @@ const Categories = () => {
           })}
         </Swiper>
       </div>
-    </section >
+    </section>
   );
 };
 
