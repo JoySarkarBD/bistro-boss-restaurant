@@ -114,9 +114,8 @@ const Nav = () => {
   );
   return (
     <div
-      className={` ${
-        scroll ? "bg-navBgColor bg-opacity-80" : "bg-transparent"
-      } shadow-lg fixed z-10 left-0 right-0`}
+      className={` ${scroll ? "bg-[#0f172a] duration-700" : "bg-transparent"
+        } shadow-lg fixed z-10 left-0 right-0`}
     >
       <div className="navbar justify-between text-white px-14">
         <div className="navbar-start w-5/6">

@@ -7,7 +7,8 @@ export default {
         authBg: "url('./src/assets/others/authentication.png')",
       },
       backgroundColor: {
-        navBgColor: "rgba(21, 21, 21, 0.50)",
+        // navBgColor: "rgba(21, 21, 21, 0.50)",
+        // navBgColor: "#0f172a",
       },
     },
   },
