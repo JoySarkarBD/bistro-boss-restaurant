@@ -4,14 +4,14 @@ const ReviewModel = require('../models/ReviewModel');
 const createReview = async (req, res) => {
     try {
         // Get the review data from the request body
-        const { rating, recipeUserLikeMost, reviewSuggestion, reviewRetails } = req.body;
+        const { rating, recipeUserLikeMost, reviewSuggestion, reviewDetails } = req.body;
 
         // Create a new review instance
         const newReview = new ReviewModel({
             rating,
             recipeUserLikeMost,
             reviewSuggestion,
-            reviewRetails,
+            reviewDetails,
             user: req.params?.userId
         });
 
@@ -65,12 +65,12 @@ const getReview = async (req, res) => {
 const updateReview = async (req, res) => {
     try {
         // Get the review data from the request body
-        const { rating, recipeUserLikeMost, reviewSuggestion, reviewRetails } = req.body;
+        const { rating, recipeUserLikeMost, reviewSuggestion, reviewDetails } = req.body;
 
         // Find the review by ID and update its fields
         const updatedReview = await ReviewModel.findOneAndUpdate(
             { _id: req.params?.reviewId, user: req.params?.userId },
-            { rating, recipeUserLikeMost, reviewSuggestion, reviewRetails },
+            { rating, recipeUserLikeMost, reviewSuggestion, reviewDetails },
             { new: true }
         );
 

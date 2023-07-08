@@ -19,7 +19,7 @@ const reviewSchema = new mongoose.Schema({
         trim: true,
         required: true
     },
-    reviewRetails: {
+    reviewDetails: {
         type: String,
         trim: true,
         required: true

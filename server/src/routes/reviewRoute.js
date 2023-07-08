@@ -6,7 +6,7 @@ const { createReview, getReview, deleteReview, updateReview } = require('../cont
 const { reviewValidate, reviewUpdateValidate, validReviewErrorResult } = require('../middlewares/reviewValidateMiddleware');
 
 // post review
-router.post('/review/:userId', reviewValidate, validReviewErrorResult createReview);
+router.post('/review/:userId', reviewValidate, validReviewErrorResult, createReview);
 
 // get review
 router.get('/review/:reviewId', getReview);
