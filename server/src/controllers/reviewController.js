@@ -27,7 +27,7 @@ const createReview = async (req, res) => {
         // Handle any errors that occur during the process
         res.status(200).json({
             status: 'failed',
-            data: error?.message;
+            data: error?.message
         });
     }
 };
@@ -56,7 +56,7 @@ const getReview = async (req, res) => {
         // Handle any errors that occur during the process
         res.status(200).json({
             status: 'failed',
-            data: error?.message;
+            data: error?.message
         });
     }
 };
