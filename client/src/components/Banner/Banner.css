@@ -1,0 +1,16 @@
+.carousel .slider-wrapper {
+  height: calc(100vh - 120px);
+  transition: height 0.15s ease-in;
+}
+
+.carousel .thumbs-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 700px) {
+  .carousel .slider-wrapper {
+    height: 100% !important;
+  }
+}

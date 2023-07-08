@@ -1,0 +1,39 @@
+.carousel .thumbs-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.carousel .slider-wrapper {
+  height: calc(100vh - 120px);
+  transition: height 0.15s ease-in;
+}
+
+.swiper {
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 312px;
+  height: 350px;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  border-radius: 10px;
+}
+.categories {
+  background-color: aliceblue;
+}
+.categories h3 {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
