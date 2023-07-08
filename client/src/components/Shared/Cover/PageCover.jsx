@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Parallax } from "react-parallax";
 
-const Cover = ({ img, title, subText }) => {
+const PageCover = ({ img, title, subText }) => {
   return (
     <Parallax
       blur={{ min: -50, max: 50 }}
@@ -21,4 +21,4 @@ const Cover = ({ img, title, subText }) => {
   );
 };
 
-export default Cover;
+export default PageCover;
