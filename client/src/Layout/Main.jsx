@@ -3,14 +3,17 @@ import Footer from "../components/Shared/Footer/Footer";
 import Nav from "../components/Shared/Navbar/Nav";
 
 const Main = () => {
-  const location=useLocation();
+  const location = useLocation();
 
-  const noHeaderFooter= location.pathname.includes("/register") || location.pathname.includes("/login")
+  const noHeaderFooter =
+    location.pathname.includes("/register") ||
+    location.pathname.includes("/login") ||
+    location.pathname.includes("/update-profile");
   return (
     <div>
-      {noHeaderFooter || <Nav/>}
+      {noHeaderFooter || <Nav />}
       <Outlet />
-      {noHeaderFooter || <Footer/>}
+      {noHeaderFooter || <Footer />}
     </div>
   );
 };

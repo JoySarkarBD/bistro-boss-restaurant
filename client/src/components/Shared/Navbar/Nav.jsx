@@ -65,7 +65,7 @@ const Nav = () => {
       </li>
       <li>
         <NavLink
-          to="/dashboard/myCarts"
+          to="/cart"
           className={({ isActive }) =>
             isActive ? "activeStyle" : "hover:text-white"
           }
