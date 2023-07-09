@@ -15,7 +15,6 @@ const userSchema = new mongoose.Schema({
         trim:true,
         match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         required: true,
-
     },
     address: {
         type: String,
@@ -24,7 +23,6 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-
     },
     role: {
         type: String,

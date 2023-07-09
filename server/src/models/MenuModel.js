@@ -1,11 +1,15 @@
 const mongoose = require('mongoose');
 
-const menuSchema = new mongoose.Schema(
-    {
+const menuSchema = new mongoose.Schema({
         name: {
             type: String,
             trim: true,
             required: true,
+        },
+        menuType:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'MenuType',
+            required: true
         },
         recipe: {
             type: String,
