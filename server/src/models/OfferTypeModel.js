@@ -5,6 +5,16 @@ const offerSchema = new mongoose.Schema({
             type: String,
             trim: true,
             required: true,
+        },
+        discount:{
+            type:String,
+            trim: true,
+            required: true,
+        },
+        details:{
+            type: String,
+            trim: true,
+            required: true,
         }
     }, { timestamps: true, versionKey: false });
 
