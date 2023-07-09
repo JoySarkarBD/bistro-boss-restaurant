@@ -1,0 +1,24 @@
+{
+  "name": "bistro-boss-restaurant",
+  "version": "1.0.0",
+  "description": "A practice forntend & backend for this project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"cd server && NODE_ENV=development nodemon index.js\" \"cd client && yarn dev\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoySarkarBD/bistro-boss-restaurant.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoySarkarBD/bistro-boss-restaurant/issues"
+  },
+  "homepage": "https://github.com/JoySarkarBD/bistro-boss-restaurant#readme",
+  "dependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
