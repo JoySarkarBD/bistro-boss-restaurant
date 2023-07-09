@@ -1,12 +1,14 @@
-
-
+import SectionTitle from "../Shared/SectionTitle";
 
 // import required modules
 const Testimonials = () => {
   return (
-    <div>
-      <h1>Testimonial section</h1>
-    </div>
+    <section className='my-24'>
+      <SectionTitle
+        subheading='---What Our Clients Say---'
+        heading='TESTIMONIALS'
+      />
+    </section>
   );
 };
 

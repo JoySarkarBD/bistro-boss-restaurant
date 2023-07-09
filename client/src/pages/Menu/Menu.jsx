@@ -1,18 +1,18 @@
-import contactCover from "../../assets/contact/banner.jpg";
+import menuCover from "../../assets/menu/banner3.jpg";
 import PageCover from "../../components/Shared/Cover/PageCover";
 import PageTitle from "../../components/Shared/PageTitle";
 
-const Contact = () => {
+const Menu = () => {
   return (
     <div>
-      <PageTitle title='Contact' />
+      <PageTitle title='Menu' />
       <PageCover
-        img={contactCover}
-        title='contact us'
+        img={menuCover}
+        title='OUR MENU'
         subText='Would you like to try a dish?'></PageCover>
-      <h1>Contact Page</h1>
+      <h1>Menu Page</h1>
     </div>
   );
 };
 
-export default Contact;
+export default Menu;
