@@ -6,9 +6,9 @@ const menuSchema = new mongoose.Schema({
             trim: true,
             required: true,
         },
-        menuType:{
+        offerType:{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'MenuType',
+            ref: 'OfferType',
             required: true
         },
         recipe: {
