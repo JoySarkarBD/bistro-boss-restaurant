@@ -1,4 +1,4 @@
-const { check, param } = require('express-validator');
+const { check,param, validationResult } = require('express-validator');
 
 // review validate
 const reviewValidate = [
@@ -7,14 +7,6 @@ const reviewValidate = [
     check('reviewSuggestion').notEmpty().withMessage('Review Suggestion is required'),
     check('reviewRetails').notEmpty().withMessage('Review Retails is required'),
     param('user').isMongoId().withMessage('Invalid user ID'),
-
-    (req, res, next) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(200).json({ errors: errors.array() });
-        }
-        next();
-    }
 ];
 
 // update review validate
@@ -26,4 +18,18 @@ const reviewUpdateValidate = [
     check('reviewRetails').optional().notEmpty().withMessage('Review Retails is required')
 ];
 
-module.exports = { reviewValidate, reviewUpdateValidate };
+// review error result
+const validReviewErrorResult = (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const errorMessages = errors.array().map((error) => ({
+            field: error.param,
+            message: error.msg,
+        }));
+        return res.status(200).json({ status: 'failed', errors });
+    }
+    next();
+};
+
+
+module.exports = { reviewValidate, reviewUpdateValidate, validReviewErrorResult };
