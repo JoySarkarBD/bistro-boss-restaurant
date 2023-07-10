@@ -8,6 +8,8 @@ const Main = () => {
   const noHeaderFooter =
     location.pathname.includes("/register") ||
     location.pathname.includes("/login") ||
+    location.pathname.includes("/forget-password") ||
+    location.pathname.includes("/reset-password") ||
     location.pathname.includes("/update-profile");
   return (
     <div>

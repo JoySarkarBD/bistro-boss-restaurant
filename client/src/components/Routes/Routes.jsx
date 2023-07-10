@@ -3,6 +3,8 @@ import DashboardLayout from "../../Layout/DashboardLayout";
 import Main from "../../Layout/Main";
 import Cart from "../../pages/Cart/Cart";
 import Contact from "../../pages/Contact/Contact";
+import ForgetPassword from "../../pages/ForgetPassword/ForgetPassword";
+import ResetPassword from "../../pages/ForgetPassword/ResetPassword";
 import Home from "../../pages/Home/Home";
 import Login from "../../pages/Login/Login";
 import Menu from "../../pages/Menu/Menu";
@@ -56,6 +58,14 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
+        path: "forget-password",
+        element: <ForgetPassword />,
+      },
+      {
+        path: "reset-password",
+        element: <ResetPassword />,
+      },
+      {
         path: "update-profile",
         element: <UpdateProfile />,
       },
@@ -69,10 +79,12 @@ const router = createBrowserRouter([
     path: "dashboard/",
     element: <DashboardLayout />,
     errorElement: <ErrorPage />,
-    children: [{
-      path:"ecommerce",
-      element: <Product />,
-    }],
+    children: [
+      {
+        path: "ecommerce",
+        element: <Product />,
+      },
+    ],
   },
 ]);
 

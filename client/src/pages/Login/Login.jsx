@@ -19,10 +19,15 @@ const Login = () => {
               Log In
             </h2>
             <div className='relative mb-4'>
-              <TextInput title='Email' />
+              <TextInput title='Email' type='email' />
             </div>
             <div className='relative mb-4'>
-              <TextInput title='Password' />
+              <TextInput title='Password' type='password' />
+              <p className='text-left text-[#869CDB] cursor-pointer text-base mt-1'>
+                <Link to='/forget-password' className='font-normal'>
+                  Forgot Password?
+                </Link>
+              </p>
             </div>
             <FormBtn type='submit' title='submit' />
             <p className='text-center text-[#D99904] cursor-pointer text-base mt-3'>

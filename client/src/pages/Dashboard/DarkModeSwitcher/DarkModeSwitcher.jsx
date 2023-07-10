@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { BsMoon, BsSun } from "react-icons/bs";
+
 const DarkModeSwitcher = () => {
   const [theme, setTheme] = useState(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : null
@@ -34,11 +35,11 @@ const DarkModeSwitcher = () => {
 
   return (
     <div>
-      <span className="cursor-pointer" onClick={handleThemeSwitch}>
+      <span className='cursor-pointer' onClick={handleThemeSwitch}>
         {theme === "dark" ? (
-          <BsSun className="w-6 h-6 text-[#FFEC99] duration-200 hover:text-white" />
+          <BsSun className='w-6 h-6 text-[#FFEC99] duration-200 hover:text-white' />
         ) : (
-          <BsMoon className="w-5 h-5 text-slate-500 duration-200 hover:text-slate-600" />
+          <BsMoon className='w-5 h-5 text-slate-500 duration-200 hover:text-slate-600' />
         )}
       </span>
     </div>
