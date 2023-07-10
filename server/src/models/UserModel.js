@@ -6,23 +6,26 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        trim:true,
+        trim: true,
     },
     email: {
         type: String,
         unique: true,
         lowercase: true,
-        trim:true,
+        trim: true,
         match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         required: true,
     },
     address: {
         type: String,
-        trim:true,
-
+        trim: true,
     },
     password: {
         type: String,
+    },
+    mobile: {
+        type: String,
+        trim: true,
     },
     role: {
         type: String,
@@ -34,7 +37,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     }
-}, {timestamps: true, versionKey: false});
+}, { timestamps: true, versionKey: false });
 
 const UserModel = mongoose.model('User', userSchema);
 
