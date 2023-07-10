@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import DashboardLayout from "../../Layout/DashboardLayout";
 import Main from "../../Layout/Main";
 import Cart from "../../pages/Cart/Cart";
 import Contact from "../../pages/Contact/Contact";
@@ -63,6 +64,15 @@ const router = createBrowserRouter([
         element: <VerifyUser />,
       },
     ],
+  },
+  {
+    path: "dashboard/",
+    element: <DashboardLayout />,
+    errorElement: <ErrorPage />,
+    children: [{
+      path:"ecommerce",
+      element: <Product />,
+    }],
   },
 ]);
 
