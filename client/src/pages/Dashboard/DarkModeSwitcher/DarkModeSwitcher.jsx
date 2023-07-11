@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import { BsMoon, BsSun } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { trackTheme } from "../../../Features/utilities/utilitySlice";
 
 const DarkModeSwitcher = () => {
   const [theme, setTheme] = useState(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : null
   );
+
+  const dispatch = useDispatch();
+
   const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
   function onWindowMatches() {
@@ -23,11 +28,13 @@ const DarkModeSwitcher = () => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
+      dispatch(trackTheme("dark"));
     } else {
       document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
+      dispatch(trackTheme("light"));
     }
-  }, [theme]);
+  }, [theme, dispatch]);
 
   const handleThemeSwitch = () => {
     setTheme(theme === "dark" ? "light" : "dark");
