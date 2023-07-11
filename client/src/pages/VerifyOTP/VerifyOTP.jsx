@@ -1,11 +1,18 @@
-import toast, { Toaster } from "react-hot-toast";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import cupcake from "../../assets/others/cupcake-dribbble.gif";
 import FormBtn from "../../components/Form/FormBtn";
 import TextInput from "../../components/Form/TextInput";
 import PageTitle from "../../components/Shared/PageTitle";
 
 const VerifyOTP = () => {
-  const notify = () => toast.success("Successfully verified!");
+  const [isVerified, setIsVerified] = useState(false);
+  const navigate = useNavigate();
+
+  const verifiedOTP = () => {
+    setIsVerified(true);
+    navigate("/");
+  };
 
   return (
     <div>
@@ -26,8 +33,11 @@ const VerifyOTP = () => {
             <div className='flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:px-0 items-end sm:space-x-4 sm:space-y-0 space-y-4'>
               <div className='relative sm:mb-0 flex-grow w-full'>
                 <TextInput title='otp' type='' />
-                <FormBtn type='submit' title='verify OTP' onClick={notify} />
-                <Toaster />
+                <FormBtn
+                  type='submit'
+                  title='verify OTP'
+                  onClick={verifiedOTP}
+                />
               </div>
             </div>
           </div>
