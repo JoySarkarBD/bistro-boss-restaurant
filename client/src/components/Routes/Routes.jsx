@@ -14,6 +14,7 @@ import Shop from "../../pages/Shop/Shop";
 import UpdateProfile from "../../pages/UpdateProfile/UpdateProfile";
 import VerifyUser from "../../pages/VerifyUser/VerifyUser";
 import ErrorPage from "../../ui/ErrorPage";
+import TermsAndCondition from "../TermsAndCondition/TermsAndCondition";
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
       {
         path: "verifyUser/:userId",
         element: <VerifyUser />,
+      },
+      {
+        path: "termsAndCondition",
+        element: <TermsAndCondition />,
       },
     ],
   },
