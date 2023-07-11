@@ -12,6 +12,7 @@ import Product from "../../pages/Product/Product";
 import Register from "../../pages/Register/Register";
 import Shop from "../../pages/Shop/Shop";
 import UpdateProfile from "../../pages/UpdateProfile/UpdateProfile";
+import VerifyOTP from "../../pages/VerifyOTP/VerifyOTP";
 import VerifyUser from "../../pages/VerifyUser/VerifyUser";
 import ErrorPage from "../../ui/ErrorPage";
 import TermsAndCondition from "../TermsAndCondition/TermsAndCondition";
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
       {
         path: "forget-password",
         element: <ForgetPassword />,
+      },
+      {
+        path: "verify-otp",
+        element: <VerifyOTP />,
       },
       {
         path: "reset-password",

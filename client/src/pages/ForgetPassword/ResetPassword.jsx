@@ -6,7 +6,7 @@ import PageTitle from "../../components/Shared/PageTitle";
 const ResetPassword = () => {
   return (
     <div>
-      <PageTitle title='Sign Up' />
+      <PageTitle title='Reset Password' />
       <section className='text-gray-400 body-font  flex min-h-screen w-full justify-center items-center'>
         <div className='container px-5 py-14 mx-auto '>
           <div className='lg:w-2/6 md:w-1/2 bg-transparent border-2 border-indigo-500 bg-opacity-50 rounded-lg md:mx-auto w-full mt-6 md:mt-0 py-6 auth_shadow'>

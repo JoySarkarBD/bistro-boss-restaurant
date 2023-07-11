@@ -4,18 +4,18 @@ import FormBtn from "../../components/Form/FormBtn";
 import TextInput from "../../components/Form/TextInput";
 import PageTitle from "../../components/Shared/PageTitle";
 
-const ForgetPassword = () => {
-  const notify = () => toast.success("OTP send in your email!");
+const VerifyOTP = () => {
+  const notify = () => toast.success("Successfully verified!");
 
   return (
     <div>
-      <PageTitle title='Forget Password' />
+      <PageTitle title='OTP Verify' />
       <section className='text-gray-400 body-font  flex min-h-screen w-full justify-center items-center'>
         <div className='container px-5 py-24 mx-auto '>
           <div className='lg:w-2/6 md:w-1/2 bg-transparent border-2 border-indigo-500 bg-opacity-50 rounded-lg md:mx-auto w-full mt-10 md:mt-0 p-10 auth_shadow'>
             <div className='flex flex-col text-center w-full mb-6'>
               <h2 className='text-4xl text-black font-semibold title-font mb-5'>
-                Forget Password
+                Verify OTP
               </h2>
               <img
                 src={cupcake}
@@ -25,8 +25,8 @@ const ForgetPassword = () => {
             </div>
             <div className='flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:px-0 items-end sm:space-x-4 sm:space-y-0 space-y-4'>
               <div className='relative sm:mb-0 flex-grow w-full'>
-                <TextInput title='Email' type='email' />
-                <FormBtn type='submit' title='OTP send' onClick={notify} />
+                <TextInput title='otp' type='' />
+                <FormBtn type='submit' title='verify OTP' onClick={notify} />
                 <Toaster />
               </div>
             </div>
@@ -37,4 +37,4 @@ const ForgetPassword = () => {
   );
 };
 
-export default ForgetPassword;
+export default VerifyOTP;

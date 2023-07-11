@@ -10,6 +10,7 @@ const Main = () => {
     location.pathname.includes("/login") ||
     location.pathname.includes("/forget-password") ||
     location.pathname.includes("/reset-password") ||
+    location.pathname.includes("/verify-otp") ||
     location.pathname.includes("/update-profile");
   return (
     <div>
