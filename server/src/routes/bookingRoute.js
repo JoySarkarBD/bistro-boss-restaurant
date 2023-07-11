@@ -18,3 +18,5 @@ router.put('/booking/:bookingId',/* only restaurant authority can update this */
 
 // cancel reserved booked
 router.delete('/booking/:bookingId',/* only restaurant authority can delete */, cancelBookingForReservation);
+
+module.exports = router;
