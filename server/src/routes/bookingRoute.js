@@ -4,6 +4,23 @@ const { bookingValidate, validBookingErrorResult, bookingUpdateValidate } = requ
 // External imports
 const router = require('express').Router();
 
+
+
+
+
+/* 
+
+@TODO:  Admin can see all review.
+@TODO:  Admin can delete any reserved or multiple reserved books at once.
+
+*/
+
+
+
+
+
+
+
 // booking set for reservation
 router.post('/booking/:userId',/* user should login */, bookingValidate, validBookingErrorResult, createBookingForReservation);
 

@@ -8,7 +8,6 @@ const { emailValidate, validateErrorResult, ValidateUpdateUser } = require("../m
 // register
 router.post('/register', emailValidate, validateErrorResult, registerUser);
 
-
 // update user
 router.put('/update-user/:userId', ValidateUpdateUser, validateErrorResult, updateUser);
 

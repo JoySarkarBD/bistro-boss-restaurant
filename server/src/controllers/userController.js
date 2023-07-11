@@ -3,6 +3,10 @@ const UserModel = require("../models/UserModel");
 const sendEmail = require("../helpers/sendEmail");
 
 // Register a new user
+
+// @desc    Register a user
+// @route   POST /api/v1/register
+// @access  Public
 const registerUser = async (req, res) => {
     try {
 
@@ -20,7 +24,7 @@ const registerUser = async (req, res) => {
             
             `
             // mail info
-            const mailInfo = {receivers: [newUser?.email], emailSubject: `Verify Email`, emailText}
+            const mailInfo = { receivers: [newUser?.email], emailSubject: `Verify Email`, emailText }
 
             //     send mail for verification
             const mailResult = await sendEmail(mailInfo);
@@ -52,15 +56,18 @@ const registerUser = async (req, res) => {
     }
 };
 
+// Update user
 
-// update user
+// @desc    Update user details
+// @route   PUT /api/v1/update-user/:userId
+// @access  Private
 const updateUser = async (req, res, next) => {
     try {
-        const {name, address, password} = req?.body
+        const { name, address, password } = req?.body
 
         const user = await UserModel.findByIdAndUpdate(req.params?.userId, {
-            $set: {name, address, password}
-        }, {new: true, upsert: true});
+            $set: { name, address, password }
+        }, { new: true, upsert: true });
 
         if (user?._id && user?.name) {
             res.status(200).json({
@@ -82,8 +89,11 @@ const updateUser = async (req, res, next) => {
     }
 }
 
+// Verify email
 
-// verify email
+// @desc    Update user details
+// @route   PUT /api/v1/verify-email/:id
+// @access  Private
 const verifyEmail = async (req, res) => {
     try {
 
@@ -99,9 +109,9 @@ const verifyEmail = async (req, res) => {
         } else {
             // Find the user by email in the database and update the "isVerified" field
             const user = await UserModel.findOneAndUpdate(
-                {_id: req.params.id},
-                {$set: {verified: true}},
-                {new: true}
+                { _id: req.params.id },
+                { $set: { verified: true } },
+                { new: true }
             ).select('-password');
 
             if (!user) {
@@ -125,6 +135,8 @@ const verifyEmail = async (req, res) => {
     }
 };
 
+
+// module exports
 module.exports = {
     registerUser,
     updateUser,

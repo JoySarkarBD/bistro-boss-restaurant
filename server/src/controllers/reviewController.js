@@ -1,6 +1,10 @@
 const ReviewModel = require('../models/ReviewModel');
 
-// create review controller
+// Create review controller
+
+// @desc    Post a review
+// @route   Post /api/v1/review/:userId
+// @access  Private
 const createReview = async (req, res) => {
     try {
         // Get the review data from the request body
@@ -32,7 +36,11 @@ const createReview = async (req, res) => {
     }
 };
 
-// get single review
+// Get single review
+
+// @desc    Get user's single review
+// @route   GET /api/v1/review/:reviewId
+// @access  Private
 const getReview = async (req, res) => {
     try {
         const reviewId = req.params?.reviewId;
@@ -61,7 +69,11 @@ const getReview = async (req, res) => {
     }
 };
 
-// update review
+// Update review
+
+// @desc    Update user's single review
+// @route   PUT /api/v1/review/:reviewId/:userId
+// @access  Private
 const updateReview = async (req, res) => {
     try {
         // Get the review data from the request body
@@ -95,7 +107,11 @@ const updateReview = async (req, res) => {
     }
 };
 
-// delete user review
+// Delete user review
+
+// @desc    Delete Single Review
+// @route   Delete api/v1/review/:reviewId
+// @access  Private
 const deleteReview = async (req, res) => {
     try {
         // Get the review ID from the request parameters
@@ -126,4 +142,5 @@ const deleteReview = async (req, res) => {
     }
 };
 
+// module exports
 module.exports = { createReview, getReview, updateReview, deleteReview };

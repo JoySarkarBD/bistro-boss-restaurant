@@ -1,5 +1,7 @@
+// External imports
 const mongoose = require('mongoose');
 
+// create menu schema
 const menuSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -34,4 +36,5 @@ const menuSchema = new mongoose.Schema({
 
 const menuModel = mongoose.model('Menu', menuSchema);
 
+// module exports
 module.exports = menuModel;

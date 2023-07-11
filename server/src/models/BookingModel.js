@@ -1,5 +1,7 @@
+// External imports
 const mongoose = require('mongoose');
 
+// create booking schema
 const bookingSchema = new mongoose.Schema({
   date: {
     type: Date,
@@ -42,4 +44,5 @@ const bookingSchema = new mongoose.Schema({
 
 const menuModel = mongoose.model('Booking', menuSchema);
 
+// module exports
 module.exports = menuModel;

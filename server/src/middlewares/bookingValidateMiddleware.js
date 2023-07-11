@@ -1,6 +1,6 @@
 const { check, param, validationResult } = require('express-validator');
 
-// review validate
+// booking validate
 const bookingValidate = [
     check('date').notEmpty().trim().withMessage('Date is required'),
     check('time').notEmpty().trim().withMessage('Time is required'),
@@ -11,7 +11,7 @@ const bookingValidate = [
     param('user').isMongoId().withMessage('Invalid user ID'),
 ];
 
-// update review validate
+// update booking validate
 const bookingUpdateValidate = [
     check('date').optional().isISO8601().toDate().withMessage('Invalid date format'),
     check('time').optional().isString().trim().notEmpty().withMessage('Time is required'),
@@ -21,7 +21,7 @@ const bookingUpdateValidate = [
     check('email').optional().isEmail().withMessage('Invalid email address'),
 ];
 
-// review error result
+// booking error result
 const validBookingErrorResult = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
