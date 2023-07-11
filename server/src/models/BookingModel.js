@@ -33,6 +33,11 @@ const bookingSchema = new mongoose.Schema({
     match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
     required: true,
   },
+  userWhoBooked: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  }
 }, { timestamps: true, versionKey: false });
 
 const menuModel = mongoose.model('Booking', menuSchema);
