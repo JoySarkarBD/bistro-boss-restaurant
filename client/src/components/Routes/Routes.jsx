@@ -15,6 +15,7 @@ import UpdateProfile from "../../pages/UpdateProfile/UpdateProfile";
 import VerifyOTP from "../../pages/VerifyOTP/VerifyOTP";
 import VerifyUser from "../../pages/VerifyUser/VerifyUser";
 import ErrorPage from "../../ui/ErrorPage";
+import PublicRoute from "../PublicRoute/PublicRoute";
 import TermsAndCondition from "../TermsAndCondition/TermsAndCondition";
 
 const router = createBrowserRouter([
@@ -52,12 +53,12 @@ const router = createBrowserRouter([
         element: <Contact />,
       },
       {
-        path: "register",
-        element: <Register />,
+        element: <PublicRoute />,
+        children: [{ path: "register", element: <Register /> }],
       },
       {
-        path: "login",
-        element: <Login />,
+        element: <PublicRoute />,
+        children: [{ path: "login", element: <Login /> }],
       },
       {
         path: "forget-password",
@@ -85,6 +86,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+
   {
     path: "dashboard/",
     element: <DashboardLayout />,

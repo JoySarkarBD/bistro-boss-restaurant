@@ -22,18 +22,18 @@ const router = require('express').Router();
 
 
 // booking set for reservation
-router.post('/booking/:userId',/* user should login */, bookingValidate, validBookingErrorResult, createBookingForReservation);
+router.post('/booking/:userId'/* user should login */, bookingValidate, validBookingErrorResult, createBookingForReservation);
 
 // get users booking list
-router.get('booking/:userId',/* user should login */, getMyBookingList);
+router.get('booking/:userId'/* user should login */, getMyBookingList);
 
 // get all booking details
-router.get('/bookings', /* only restaurant authority can update this */, getAllBookingList);
+router.get('/bookings' /* only restaurant authority can update this */, getAllBookingList);
 
 // edit reserved booking
-router.put('/booking/:bookingId',/* only restaurant authority can update this */, bookingUpdateValidate, validBookingErrorResult, updateBookingDetails);
+router.put('/booking/:bookingId'/* only restaurant authority can update this */, bookingUpdateValidate, validBookingErrorResult, updateBookingDetails);
 
 // cancel reserved booked
-router.delete('/booking/:bookingId',/* only restaurant authority can delete */, cancelBookingForReservation);
+router.delete('/booking/:bookingId'/* only restaurant authority can delete */, cancelBookingForReservation);
 
 module.exports = router;

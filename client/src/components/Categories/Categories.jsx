@@ -15,6 +15,7 @@ import "./Categories.css";
 // import required modules
 import { EffectCoverflow, Pagination } from "swiper/modules";
 
+import { nanoid } from "@reduxjs/toolkit";
 import SectionTitle from "../Shared/SectionTitle";
 import SingleCategories from "./SingleCategories";
 
@@ -79,12 +80,12 @@ const categoriesSlide = [
 
 const Categories = () => {
   return (
-    <section className="my-24">
+    <section className='my-24'>
       <SectionTitle
-        subheading="---From 11:00am to 10:00pm---"
-        heading="ORDER ONLINE"
+        subheading='---From 11:00am to 10:00pm---'
+        heading='ORDER ONLINE'
       />
-      <div className="w-10/12 mx-auto">
+      <div className='w-10/12 mx-auto'>
         <Swiper
           initialSlide={Math.floor(categoriesSlide.length / 2)}
           effect={"coverflow"}
@@ -113,12 +114,11 @@ const Categories = () => {
               slidesPerView: 5,
               spaceBetween: 10,
             },
-          }}
-        >
+          }}>
           {categoriesSlide.map((category) => {
             return (
-              <SwiperSlide key={category.id}>
-                <SingleCategories key={category.id} category={category} />
+              <SwiperSlide key={nanoid()}>
+                <SingleCategories key={nanoid()} category={category} />
               </SwiperSlide>
             );
           })}

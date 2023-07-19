@@ -12,18 +12,25 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');	
 const hpp = require('hpp');	
 const morgan = require('morgan');
-const {notFoundHandler, errorHandler} = require("./src/middlewares/errorHandlerMiddleware"); 
-
+const {notFoundHandler, errorHandler} = require("./src/middlewares/errorHandlerMiddleware");
+const bodyParser = require('body-parser');
 
 // express app initialization
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+/*app.use(express.json());
+app.use(express.urlencoded({extended: false}));*/
 app.use(cookieParser());
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 // Security middleware initialization
-app.use(cors());
+app.use("*", cors({
+    origin: true,
+    credentials: true
+}));
+
 app.use(helmet());
 app.use(mongoSanitize());
 app.use(hpp());

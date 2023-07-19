@@ -13,8 +13,15 @@ const userSchema = new mongoose.Schema({
         unique: true,
         lowercase: true,
         trim: true,
-        match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         required: true,
+        validate: {
+            validator: function (email) {
+                // Custom email validation logic
+                return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)
+            },
+
+            message: 'Invalid email format'
+        },
     },
     address: {
         type: String,
@@ -27,17 +34,18 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: true,
     },
-    role: {
-        type: String,
-        enum: ['admin', 'moderator', 'customer'],
-        default: 'customer',
-        required: true
+    roles: {
+        user: {
+            type: Number,
+            default: 420
+        },
+        admin: Number
     },
     verified: {
         type: Boolean,
         default: false
     }
-}, { timestamps: true, versionKey: false });
+}, {timestamps: true, versionKey: false});
 
 const UserModel = mongoose.model('User', userSchema);
 

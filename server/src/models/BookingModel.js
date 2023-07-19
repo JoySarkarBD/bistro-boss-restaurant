@@ -42,7 +42,7 @@ const bookingSchema = new mongoose.Schema({
   }
 }, { timestamps: true, versionKey: false });
 
-const menuModel = mongoose.model('Booking', menuSchema);
+const menuModel = mongoose.model('Booking', bookingSchema);
 
 // module exports
 module.exports = menuModel;

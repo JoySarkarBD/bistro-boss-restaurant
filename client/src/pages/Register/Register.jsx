@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useRegistrationMutation } from "../../Features/auth/authApiSlice";
 import signUpImg from "../../assets/others/authentication2.png";
 import FormBtn from "../../components/Form/FormBtn";
 import TextInput from "../../components/Form/TextInput";
@@ -6,6 +8,32 @@ import PageTitle from "../../components/Shared/PageTitle";
 import "./Register.css";
 
 const Register = () => {
+  const [registration, { isError, isLoading, isSuccess }] =
+    useRegistrationMutation();
+  const [email, setEmail] = useState("developer.mehedi23@gmail.com");
+  const [password, setPassword] = useState("Mehedi_23");
+
+  // regest function
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    try {
+      const userData = await registration({ email, password }).unwrap();
+      console.log(userData);
+    } catch (err) {
+      console.log(err);
+      if (!err?.originalStatus) {
+        // isLoading: true until timeout occurs
+        console.log("No Server Response");
+      } else if (err.originalStatus === 400) {
+        console.log("Missing Username or Password");
+      } else if (err.originalStatus === 401) {
+        console.log("Unauthorized");
+      } else {
+        console.log("Login Failed");
+      }
+    }
+  };
+
   return (
     <>
       <PageTitle title='Sign Up' />
@@ -22,12 +50,28 @@ const Register = () => {
                 className='w-2/3 mx-auto'
               />
             </div>
-            <div className='flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:px-0 items-end sm:space-x-4 sm:space-y-0 space-y-4'>
+            <form
+              onSubmit={handleRegister}
+              className='flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:px-0 items-end sm:space-x-4 sm:space-y-0 space-y-4'>
               <div className='relative sm:mb-0 flex-grow w-full'>
-                <TextInput title='Email' type='email' />
+                <TextInput
+                  name='email'
+                  title='email'
+                  type='text'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <TextInput
+                  name='password'
+                  title='password'
+                  type='password'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+
                 <FormBtn type='submit' title='submit' />
               </div>
-            </div>
+            </form>
             <h6 className='text-center text-[#D99904] cursor-pointer text-base mt-3'>
               Already registered?{" "}
               <Link to='/login' className='font-semibold'>

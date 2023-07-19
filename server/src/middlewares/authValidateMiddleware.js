@@ -1,57 +1,131 @@
-const { check, validationResult } = require("express-validator");
+const {check, validationResult} = require("express-validator");
 const createError = require('http-errors')
 const UserModel = require("../models/UserModel");
 
 // email validate
-const emailValidate = [
+const registrationFieldValidate = [
     //email
     check("email")
-        .isEmail()
-        .withMessage("Invalid email address")
         .trim()
         .toLowerCase()
+        .isEmail()
+        .withMessage("Invalid email")
         .custom(async (value) => {
             try {
-                const existUser = await UserModel.findOne({ email: value });
-                if (existUser?._id && existUser?.email) {
-                    throw createError("Email already in use");
+                const existingUser = await UserModel.findOne({email: value});
+
+                if (existingUser) {
+                    throw  createError(409, 'This email already taken')
+                } else {
+                    return true
                 }
-            } catch (error) {
-                throw createError(error.message);
+            } catch (e) {
+                throw  createError(e.message)
             }
         }),
-]
-
-
-// update user validator
-const ValidateUpdateUser = [
-    check('name').trim().notEmpty().withMessage('Name is required').isLength({ min: 3 }).withMessage('Name must be at least 3 characters long'),
-    check('address').notEmpty().withMessage('Address is required').trim(),
-    check('password').isStrongPassword({
-        minLength: 8,
-        minLowercase: 1,
-        minUppercase: 1,
-        minNumbers: 1,
-        minSymbols: 1,
-    }).withMessage('Weak password')
+    // password
+    check('password').notEmpty().withMessage('Password required')
 ]
 
 // validate handler
 const validateErrorResult = (req, res, next) => {
     const errors = validationResult(req).mapped();
+
     if (Object.keys(errors).length === 0) {
         next()
     } else {
-        res.status(200).json({
-            status: 'failed',
-            errors
+        let errorArr = []
+        for (let error in errors) {
+            errorArr.push({[error]: errors[error].msg})
+        }
+
+        res.status(400).json({
+            msg: 'failed',
+            errors: errorArr
         })
     }
 }
 
 
+// update user validator
+const updateFieldValidate = [
+    check('name').trim().custom((value) => {
+        if (!value.length) {
+            return true
+        } else {
+            if (value.length < 3) {
+                throw createError('Minimum 3 character required')
+            }
+            if (value.length >= 31) {
+                throw createError('Maximum 31 character required')
+            } else {
+                return true
+            }
+        }
+    }),
+    check('address').trim().custom((value) => {
+        if (!value.length) {
+            return true
+        } else {
+            if (value.length < 2) {
+                throw createError('Address minimum need 2 character')
+            }
+            if (value.length >= 70) {
+                throw createError('Address maximum use 70 character')
+            } else {
+                return true
+            }
+        }
+    })
+    ,
+    check('password').custom((value) => {
+        if (!value.length) {
+            return true
+        } else {
+
+            if (value.length < 8) {
+                throw createError('Password length must 8 character long inclueded [Aa@.....]')
+            }
+            if (!/[A-Z]/.test(value)) {
+                throw createError('Password must be includes an uppercase')
+            }
+
+            if (!/[a-z]/.test(value)) {
+                throw createError('Password must be includes an lowercase')
+            }
+
+            if (!/[$@!%*?&]/.test(value)) {
+                throw createError('Password must have a special character')
+            } else {
+                return true
+
+            }
+
+
+        }
+    })
+
+]
+
+
+// login validation
+const loginFieldValidation = [
+    check("email")
+        .trim()
+        .notEmpty().withMessage('Email required')
+        .toLowerCase()
+        .isEmail()
+        .withMessage("Invalid email")
+    ,
+    check("password")
+        .notEmpty()
+        .withMessage('Password required')
+
+]
+
 module.exports = {
-    emailValidate,
-    ValidateUpdateUser,
+    registrationFieldValidate,
+    updateFieldValidate,
+    loginFieldValidation,
     validateErrorResult
 }

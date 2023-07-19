@@ -1,20 +1,33 @@
-import axios from "axios";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { axiosInstance } from "../../../lib/axios";
+import { setCredentials } from "../../Features/auth/authSlice";
 
 const VerifyUser = () => {
   const { userId } = useParams();
-
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   useEffect(() => {
     async function veriFiedEmail() {
       try {
-        const { data } = await axios.put(
-          `http://localhost:5000/api/v1/verify-email/${userId}`
+        const { data } = await axiosInstance.put(
+          `/users/verify-email/${userId}`
         );
+        if (data.msg === "success" && data?.data?.accessToken) {
+          localStorage.setItem("userInfo", JSON.stringify(data?.data.userInfo));
+          dispatch(
+            setCredentials({
+              accessToken: data?.data.accessToken,
+              roles: data?.data?.roles,
+              userInfo: data?.data?.userInfo,
+            })
+          );
 
-        if (data?.status === "success") {
-          navigate("/update-profile", { state: data });
+          navigate("/");
+          /* setUserData(data);
+          setLoading(false); */
         } else {
           navigate("/");
         }
@@ -25,7 +38,7 @@ const VerifyUser = () => {
       }
     }
     veriFiedEmail();
-  }, [navigate, userId]);
+  }, [navigate, userId, dispatch]);
 };
 
 export default VerifyUser;

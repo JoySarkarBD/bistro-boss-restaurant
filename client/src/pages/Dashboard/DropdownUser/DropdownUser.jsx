@@ -4,9 +4,14 @@ import { FiSettings } from "react-icons/fi";
 import { SlLogout } from "react-icons/sl";
 import { Link } from "react-router-dom";
 
+import { useSelector } from "react-redux";
 import userOne from "./../../../assets/user.png";
 
 const DropdownUser = () => {
+  const auth = useSelector((state) => state.auth);
+
+  const { userInfo } = auth;
+
   // Declare a state variable 'dropdownOpen' using the 'useState' hook
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -18,7 +23,7 @@ const DropdownUser = () => {
         to='#'>
         <span className='hidden text-right md:block'>
           <span className='block text-sm font-medium text-black dark:text-white'>
-            Dipto Das
+            {userInfo?.name || "no name"}
           </span>
           <span className='block text-xs text-black dark:text-white'>
             Web Designer
