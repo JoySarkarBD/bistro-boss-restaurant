@@ -1,7 +1,17 @@
+// external imports
+const createError = require('http-errors');
+
 // Internal imports
 const UserModel = require("../models/UserModel");
+const OtpModel = require("../models/OtpModel");
 const sendEmail = require("../helpers/sendEmail");
-const {hashPassword, verifyPassword, generateAccessToken, generateCookies} = require("../helpers/utilitis");
+const {
+    hashPassword,
+    verifyPassword,
+    generateAccessToken,
+    generateCookies,
+    generateTime
+} = require("../helpers/utilitis");
 
 
 // @desc    Register a user
@@ -197,7 +207,7 @@ const loginUser = async (req, res) => {
             res.status(200).json({
                 msg: 'success',
                 data: {
-                    accessToken: generateAccessToken(user, '10s'),
+                    accessToken: generateAccessToken(user, '1d'),
                     userInfo,
                     roles: Object.values(user.roles)?.filter(Boolean)
                 }
@@ -218,10 +228,104 @@ const loginUser = async (req, res) => {
     }
 }
 
+
+// @desc    OTP
+// @route   POST /api/v1/users/OTP
+// @access  public
+const createOtp = async (req, res, next) => {
+    try {
+        let otp;
+        otp = Math.floor(1000 + Math.random() * 9000);
+        const {email} = req.body;
+
+        //     find the user first
+        const user = await UserModel.findOne({email}).select('-password -createdAt -updatedAt');
+        if (user?._id && user?.email === email) {
+
+            // mail text
+            let emailText = `
+              <div style="text-align: center; padding: 20px;">
+                <h2>Your OTP</h2>
+                <h2>${otp}</h2>
+                <p>Otp will expire in 5 minuites.</p>
+              </div>
+            
+            `
+
+            // mail information
+            const mailInfo = {
+                receivers: [email],
+                emailSubject: `OTP Verification`,
+                emailText
+            }
+
+            // send otp via nodemailer function
+            const sendOtpViaNodeMailer = await sendEmail(mailInfo)
+
+            // if otp send successfully then create a new otp in database and send response
+            if (sendOtpViaNodeMailer?.messageId) {
+
+                const newOtp = await new OtpModel({
+                    email,
+                    otp,
+                    expiresIn: generateTime(300000),
+                })?.save()
+
+                res.status(201).json({
+                    status: 'success',
+                    data: newOtp,
+                })
+
+            } else {
+                next(createError(500, 'Internal server error'))
+            }
+
+        } else {
+            next(createError(401, 'Unauthorized user'))
+        }
+
+
+    } catch (e) {
+        next(createError(400, e.message))
+    }
+}
+
+
+// @desc    OTP
+// @route   POST /api/v1/users/OTP
+// @access  public
+const verifyOtp = async (req, res, next) => {
+    try {
+        const {otp, email} = req.body
+
+        //     find otp
+        const foundedOtp = await OtpModel.findOne({otp, email});
+
+        if ((foundedOtp?._id && foundedOtp?.email === email)) {
+            if (foundedOtp?.expiresIn > Date.now() && !foundedOtp?.status) {
+                const modifiedOtp = await OtpModel.findOneAndUpdate({otp, email},
+                    {$set: {status: true}}, {new: true}
+                )
+
+            } else {
+                return next(createError(403, 'OTP already used'))
+            }
+        } else {
+            return next(createError(401, " Unauthorized user"))
+        }
+
+
+    } catch (e) {
+        next(createError(400, e.message))
+    }
+}
+
 // module exports
 module.exports = {
     registerUser,
     updateUser,
     verifyEmail,
-    loginUser
+    loginUser,
+    createOtp,
+    verifyOtp
 }

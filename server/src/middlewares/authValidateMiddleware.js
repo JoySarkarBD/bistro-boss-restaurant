@@ -123,9 +123,37 @@ const loginFieldValidation = [
 
 ]
 
+
+// otp field validation
+const otpFieldValidation = [
+
+    check("email")
+        .trim()
+        .notEmpty()
+        .withMessage('Email required')
+        .isEmail()
+        .withMessage("Invalid email")
+        .toLowerCase()
+
+]
+
+// otp field validation
+const otpCodeFieldValidation = [
+
+    check("otp")
+        .trim().isNumeric()
+        .withMessage('OTP must be number type')
+        .notEmpty()
+        .withMessage('Otp required')
+        .isLength({max: 4, min: 4}).withMessage('OTP Must be 4 char long')
+
+]
+
 module.exports = {
+    validateErrorResult,
     registrationFieldValidate,
     updateFieldValidate,
     loginFieldValidation,
-    validateErrorResult
+    otpFieldValidation,
+    otpCodeFieldValidation
 }

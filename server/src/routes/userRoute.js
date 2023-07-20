@@ -2,11 +2,18 @@
 const router = require('express').Router();
 
 // Internal imports
-const {registerUser, updateUser, verifyEmail, loginUser} = require('../controllers/userController');
+const {
+    registerUser,
+    updateUser,
+    verifyEmail,
+    loginUser,
+    createOtp,
+    verifyOtp
+} = require('../controllers/userController');
 const {
 
     validateErrorResult,
-    loginFieldValidation, registrationFieldValidate, updateFieldValidate
+    loginFieldValidation, registrationFieldValidate, updateFieldValidate, otpFieldValidation, otpCodeFieldValidation
 } = require("../middlewares/authValidateMiddleware");
 const authVerifyMiddleWare = require("../middlewares/authVerifyMiddleWare");
 
@@ -21,6 +28,12 @@ router.put('/users/verify-email/:userId', verifyEmail)
 
 // login user
 router.post('/users/login', loginFieldValidation, validateErrorResult, loginUser)
+
+// verify otp
+router.post('/users/create-otp', otpFieldValidation, validateErrorResult, createOtp);
+
+// verify otp
+router.put('/users/verify-otp', otpCodeFieldValidation, validateErrorResult, verifyOtp)
 
 // module exports
 module.exports = router;

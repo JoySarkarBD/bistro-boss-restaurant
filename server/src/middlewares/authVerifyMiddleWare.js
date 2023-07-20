@@ -3,15 +3,18 @@ const jwt = require('jsonwebtoken')
 const UserModel = require("../models/UserModel");
 
 const authVerifyMiddleWare = (req, res, next) => {
+
     const token = req.headers['authorization'] || req.headers['Authorization']
 
     if (token) {
         jwt.verify(token, '12345', async (error, decode) => {
+
             if (error) return res.sendStatus(403) //if jwt expired or any kind of jwt error
             //     find user from database & check it with decoded data
-            let user = await UserModel.findById(decode?._id).select('-password -createdAt -updatedAt')
 
-            if (user?.id && user?.email === decode?.email) {
+            let user = await UserModel.findById(decode?.info?._id).select('-password -createdAt -updatedAt');
+
+            if (user?._id && (user?.email === decode?.info?.email)) {
                 req.user = {
                     userId: user?._id,
                     name: user?.name,

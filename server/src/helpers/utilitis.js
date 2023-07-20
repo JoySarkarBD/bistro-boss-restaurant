@@ -35,4 +35,10 @@ utilities.generateCookies = (res, userInfo, cookieExpireTime, tokenExpireTime) =
     }
 }
 
+
+//  @desc generate time
+utilities.generateTime = (milliseconds) => {
+    return Date.now() + milliseconds
+}
+
 module.exports = utilities

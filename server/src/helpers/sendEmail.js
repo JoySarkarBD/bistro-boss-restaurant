@@ -21,7 +21,7 @@ const sendEmail = async (mailInfo) => {
 
     //  mail options
     const mailOptions = {
-        from: `"12Vatari👻" <info@${process.env.NODE_MAILER_EMAIL}>`, // sender address
+        from: `"Bistro-Boss👻" <info@${process.env.NODE_MAILER_EMAIL}>`, // sender address
         to: receiver, // list of receivers
         subject: emailSubject, // Subject line
         html: emailText, // plain text body

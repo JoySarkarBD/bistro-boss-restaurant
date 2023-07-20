@@ -1,11 +1,29 @@
+import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useOtpMutation } from "../../Features/auth/authApiSlice";
 import cupcake from "../../assets/others/cupcake-dribbble.gif";
 import FormBtn from "../../components/Form/FormBtn";
 import TextInput from "../../components/Form/TextInput";
 import PageTitle from "../../components/Shared/PageTitle";
 
 const ForgetPassword = () => {
+  const navigate = useNavigate();
   const notify = () => toast.success("OTP send in your email!");
+  const [email, setEmail] = useState("developer.mehedi23@gmail.com");
+  const [otp] = useOtpMutation();
+
+  // @desc verify otp func
+  const handleVerifyOtp = async () => {
+    try {
+      const otpData = await otp({ email }).unwrap();
+      if (otpData.status === "success" && otpData?.data?.email) {
+        navigate("/verify-otp", { state: otpData });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -25,8 +43,17 @@ const ForgetPassword = () => {
             </div>
             <div className='flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:px-0 items-end sm:space-x-4 sm:space-y-0 space-y-4'>
               <div className='relative sm:mb-0 flex-grow w-full'>
-                <TextInput title='Email' type='email' />
-                <FormBtn type='submit' title='OTP send' onClick={notify} />
+                <TextInput
+                  title='Email'
+                  type='email'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <FormBtn
+                  type='submit'
+                  title='OTP send'
+                  onClick={handleVerifyOtp}
+                />
                 <Toaster />
               </div>
             </div>

@@ -29,6 +29,9 @@ const otpSchema = mongoose?.Schema({
         type: Boolean,
         default: false
     }
+}, {
+    versionKey: false,
+    timeStamp: true
 })
 
 const OtpModel = mongoose.model('Otp', otpSchema);
