@@ -302,13 +302,21 @@ const verifyOtp = async (req, res, next) => {
         const foundedOtp = await OtpModel.findOne({otp, email});
 
         if ((foundedOtp?._id && foundedOtp?.email === email)) {
-            if (foundedOtp?.expiresIn > Date.now() && !foundedOtp?.status) {
-                const modifiedOtp = await OtpModel.findOneAndUpdate({otp, email},
-                    {$set: {status: true}}, {new: true}
-                )
-
-            } else {
+            if (foundedOtp?.status) {
                 return next(createError(403, 'OTP already used'))
+            } else {
+                if (foundedOtp?.expiresIn > Date.now()) {
+                    const modifiedOtp = await OtpModel.findOneAndUpdate({otp, email},
+                        {$set: {status: true}}, {new: true}
+                    )
+
+                    res.status(200).json({
+                        status: "success",
+                        data: modifiedOtp
+                    })
+                } else {
+                    return next(createError(403, 'OTP Expired'))
+                }
             }
         } else {
             return next(createError(401, " Unauthorized user"))
