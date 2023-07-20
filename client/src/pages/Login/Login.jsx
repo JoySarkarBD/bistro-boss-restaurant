@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { Toaster, toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../Features/auth/authApiSlice";
 import { setCredentials } from "../../Features/auth/authSlice";
 import signUpImg from "../../assets/others/authentication2.png";
@@ -10,12 +11,20 @@ import PageTitle from "../../components/Shared/PageTitle";
 import "../Register/Register.css";
 
 const Login = () => {
-  const [email, setEmail] = useState("developer.mehedi23@gmail.com");
-  const [password, setPassword] = useState("Mehedi_23");
+  const location = useLocation();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [login, { isLoading }] = useLoginMutation();
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // @desc [if a user reset his password then this useEffect will fire]
+  useEffect(() => {
+    if (location.state?.isSuccess) {
+      toast.success("Password reset successfully");
+    }
+  }, [location.state?.isSuccess]);
 
   // @login user
   const handleLogin = async (e) => {
@@ -41,7 +50,16 @@ const Login = () => {
         console.log("server error");
       }
     } catch (error) {
-      console.log(error);
+      if (error.status === 400 && error.data.msg === "failed") {
+        return toast.error("Wrong email or password");
+      }
+
+      if (error.status === 403) {
+        return toast.error("username or password does not matched");
+      }
+      if (error.status === 401) {
+        return toast.error("Unauthorized user");
+      }
     }
   };
 
@@ -54,6 +72,7 @@ const Login = () => {
 
   return (
     <>
+      <Toaster />
       <PageTitle title='Login' />
       <section className='text-gray-400 body-font bg-authBg flex min-h-screen w-full justify-center items-center'>
         <div className='container px-5 py-24 mx-auto flex flex-wrap items-center'>

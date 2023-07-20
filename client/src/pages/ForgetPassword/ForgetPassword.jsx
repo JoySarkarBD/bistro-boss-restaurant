@@ -9,7 +9,7 @@ import PageTitle from "../../components/Shared/PageTitle";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("developer.mehedi23@gmail.com");
+  const [email, setEmail] = useState("");
   const [otp, { isLoading }] = useOtpMutation();
 
   // @desc verify otp func

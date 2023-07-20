@@ -29,10 +29,9 @@ const ResetPassword = () => {
       if (password !== confirmPassword) {
         return toast.error("Password does not match");
       } else {
-        console.log({ password, email });
         const response = await resetPassword({ password, email }).unwrap();
         if (response.msg === "success") {
-          navigate("/login");
+          navigate("/login", { state: { isSuccess: true } });
         }
       }
     } catch (error) {
