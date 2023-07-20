@@ -8,12 +8,14 @@ const {
     verifyEmail,
     loginUser,
     createOtp,
-    verifyOtp
+    verifyOtp,
+    resetPassword
 } = require('../controllers/userController');
 const {
 
     validateErrorResult,
-    loginFieldValidation, registrationFieldValidate, updateFieldValidate, otpFieldValidation, otpCodeFieldValidation
+    loginFieldValidation, registrationFieldValidate, updateFieldValidate, otpFieldValidation, otpCodeFieldValidation,
+    resetPasswordFieldValidation
 } = require("../middlewares/authValidateMiddleware");
 const authVerifyMiddleWare = require("../middlewares/authVerifyMiddleWare");
 
@@ -34,6 +36,9 @@ router.post('/users/create-otp', otpFieldValidation, validateErrorResult, create
 
 // verify otp
 router.put('/users/verify-otp', otpCodeFieldValidation, validateErrorResult, verifyOtp)
+
+// reset password
+router.put('/users/reset-password', resetPasswordFieldValidation, validateErrorResult, resetPassword)
 
 // module exports
 module.exports = router;

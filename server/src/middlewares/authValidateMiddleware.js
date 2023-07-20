@@ -141,11 +141,38 @@ const otpFieldValidation = [
 const otpCodeFieldValidation = [
 
     check("otp")
-        .trim().isNumeric()
-        .withMessage('OTP must be number type')
+        .trim()
         .notEmpty()
         .withMessage('Otp required')
+        .isNumeric()
+        .withMessage('OTP must be number type')
         .isLength({max: 4, min: 4}).withMessage('OTP Must be 4 char long')
+
+]
+// otp field validation
+const resetPasswordFieldValidation = [
+
+    check('password').custom((value) => {
+        if (value.length < 8) {
+            throw createError('Password length must 8 character long inclueded [Aa@.....]')
+        }
+        if (!/[A-Z]/.test(value)) {
+            throw createError('Password must be includes an uppercase')
+        }
+
+        if (!/[a-z]/.test(value)) {
+            throw createError('Password must be includes an lowercase')
+        }
+
+        if (!/[$@!%*?&]/.test(value)) {
+            throw createError('Password must have a special character')
+        } else {
+            return true
+
+        }
+
+
+    })
 
 ]
 
@@ -155,5 +182,6 @@ module.exports = {
     updateFieldValidate,
     loginFieldValidation,
     otpFieldValidation,
-    otpCodeFieldValidation
+    otpCodeFieldValidation,
+    resetPasswordFieldValidation
 }

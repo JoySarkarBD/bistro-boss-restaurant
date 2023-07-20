@@ -1,28 +1,71 @@
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
+
+import { fromatTime } from "../../../lib/timeFormator";
+import { useVerifyOtpMutation } from "../../Features/auth/authApiSlice";
 import cupcake from "../../assets/others/cupcake-dribbble.gif";
 import FormBtn from "../../components/Form/FormBtn";
 import TextInput from "../../components/Form/TextInput";
 import PageTitle from "../../components/Shared/PageTitle";
 
 const VerifyOTP = () => {
+  const [counter, setCounter] = useState(300);
+  const [otp, setOtp] = useState("");
+  const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
   const [email, setEmail] = useState(null);
-
   const navigate = useNavigate();
   const location = useLocation();
 
+  //  @desc  [set email in state for otp verification && notification]
   useEffect(() => {
     if (location.state.status === "success" && location.state.data.email) {
       setEmail(location.state.data.email);
-      toast.success(`OTP was send to your ${location.state.data.email} email.`);
+      toast.success(
+        `OTP was send to your ${location.state.data.email} email.`,
+        { duration: 5000 }
+      );
     }
   }, [location.state.status, location.state.data.email]);
 
-  const verifiedOTP = () => {};
+  // count down here
+  useEffect(() => {
+    // set timer
+    let timer =
+      counter > 0 &&
+      setInterval(() => {
+        setCounter(counter - 1);
+      }, 1000);
+
+    // clear timer
+    return () => clearInterval(timer);
+  }, [counter]);
+
+  const verifiedOTP = async () => {
+    try {
+      const response = await verifyOtp({ otp, email }).unwrap();
+      if (response.status === "success" && response?.data.status) {
+        navigate("/reset-password", { state: { email: response?.data.email } });
+      }
+    } catch (error) {
+      if (error.status === 400) {
+        return toast.error(error.data.errors[0].otp, { duration: 2000 });
+      }
+      if (error.status === 401) {
+        return toast.error("Unauthorized user", { duration: 2000 });
+      }
+      if (error.status === 403 && error.data.data === "OTP already used") {
+        return toast.error(error.data.data, { duration: 2000 });
+      }
+      if (error.status === 403 && error.data.data === "OTP Expired") {
+        return toast.error(error.data.data, { duration: 2000 });
+      }
+    }
+  };
 
   // @desc resend otp
   const resendOtp = () => {
+    setCounter(10);
     console.log(email);
   };
 
@@ -45,14 +88,27 @@ const VerifyOTP = () => {
             </div>
             <div className='flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:px-0 items-end sm:space-x-4 sm:space-y-0 space-y-4'>
               <div className='relative sm:mb-0 flex-grow w-full'>
-                <TextInput title='otp' type='' />
+                <h4>{fromatTime(counter)}</h4>
+                <TextInput
+                  // title='otp'
+                  name='otp'
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  placeholder='Enter OTP...'
+                />
+                {/* <input type="text" value={otp} onChange={(e)=> setOtp(e.target.value)} /> */}
                 <FormBtn
                   type='button'
                   title='verify OTP'
                   onClick={verifiedOTP}
+                  disabled={isLoading}
                 />
-                <input type='hidden' name='email' defaultValue={email} />
-                <FormBtn type='button' title='Resend' onClick={resendOtp} />
+                <FormBtn
+                  type='button'
+                  title='Resend'
+                  onClick={resendOtp}
+                  disabled={counter}
+                />
               </div>
             </div>
           </div>

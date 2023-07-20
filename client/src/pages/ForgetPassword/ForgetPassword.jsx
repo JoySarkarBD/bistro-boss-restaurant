@@ -9,24 +9,30 @@ import PageTitle from "../../components/Shared/PageTitle";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
-  const notify = () => toast.success("OTP send in your email!");
   const [email, setEmail] = useState("developer.mehedi23@gmail.com");
-  const [otp] = useOtpMutation();
+  const [otp, { isLoading }] = useOtpMutation();
 
   // @desc verify otp func
   const handleVerifyOtp = async () => {
+    toast.success("OTP sending", { duration: 3000 });
     try {
       const otpData = await otp({ email }).unwrap();
       if (otpData.status === "success" && otpData?.data?.email) {
         navigate("/verify-otp", { state: otpData });
       }
     } catch (error) {
-      console.log(error);
+      if (error.status === 400 && error.data.msg === "failed") {
+        return toast.error(error.data.errors[0].email);
+      }
+      if (error.status === 401) {
+        return toast.error("Unauthorized user");
+      }
     }
   };
 
   return (
     <div>
+      <Toaster />
       <PageTitle title='Forget Password' />
       <section className='text-gray-400 body-font  flex min-h-screen w-full justify-center items-center'>
         <div className='container px-5 py-24 mx-auto '>
@@ -52,9 +58,9 @@ const ForgetPassword = () => {
                 <FormBtn
                   type='submit'
                   title='OTP send'
+                  disabled={isLoading}
                   onClick={handleVerifyOtp}
                 />
-                <Toaster />
               </div>
             </div>
           </div>

@@ -286,7 +286,7 @@ const createOtp = async (req, res, next) => {
 
 
     } catch (e) {
-        next(createError(400, e.message))
+        next(createError(404, e.message))
     }
 }
 
@@ -319,12 +319,42 @@ const verifyOtp = async (req, res, next) => {
                 }
             }
         } else {
-            return next(createError(401, " Unauthorized user"))
+            return next(createError(401, "Unauthorized user"))
         }
 
 
     } catch (e) {
         next(createError(400, e.message))
+    }
+}
+
+
+// // @desc    OTP
+// // @route   POST /api/v1/users/OTP
+// // @access  public
+const resetPassword = async (req, res, next) => {
+    try {
+        const {password, email} = req?.body;
+
+        //     found user
+        const foundUser = await UserModel.findOne({email}).select('-updatedAt -createdAt -password');
+
+        if (foundUser?._id && foundUser?.email === email) {
+            const modifiedUser = await UserModel.findOneAndUpdate({email}, {$set: {password: await hashPassword(password, 10)}}, {new: true});
+            if (modifiedUser?._id) {
+                res.status(200).json({
+                    msg: "success",
+                    data: modifiedUser
+                })
+            } else {
+                next(createError(500, 'Internal server error'))
+            }
+        } else {
+            next(createError(401, 'Unauthorized user'))
+        }
+
+    } catch (e) {
+        next(createError(404, e.message))
     }
 }
 
@@ -335,5 +365,6 @@ module.exports = {
     verifyEmail,
     loginUser,
     createOtp,
-    verifyOtp
+    verifyOtp,
+    resetPassword
 }

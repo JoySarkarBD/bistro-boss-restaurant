@@ -29,12 +29,25 @@ export const authApiSlice = authAPi.injectEndpoints({
     verifyOtp: builder.mutation({
       query: (data) => ({
         url: "/verify-otp",
-        method: "POST",
+        method: "PUT",
+        body: data,
+      }),
+    }),
+
+    resetPassword: builder.mutation({
+      query: (data) => ({
+        url: "/reset-password",
+        method: "PUT",
         body: data,
       }),
     }),
   }),
 });
 
-export const { useLoginMutation, useRegistrationMutation, useOtpMutation } =
-  authApiSlice;
+export const {
+  useLoginMutation,
+  useRegistrationMutation,
+  useOtpMutation,
+  useVerifyOtpMutation,
+  useResetPasswordMutation,
+} = authApiSlice;
