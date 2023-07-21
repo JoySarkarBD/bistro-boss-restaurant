@@ -10,8 +10,8 @@ import "./Register.css";
 const Register = () => {
   const [registration, { isError, isLoading, isSuccess }] =
     useRegistrationMutation();
-  const [email, setEmail] = useState("developer.mehedi23@gmail.com");
-  const [password, setPassword] = useState("Mehedi_23");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   // regest function
   const handleRegister = async (e) => {

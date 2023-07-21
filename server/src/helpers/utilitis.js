@@ -10,10 +10,12 @@ utilities.hashPassword = async (password, salt) => {
     return await bcrypt.hash(password, salt)
 }
 
-
+//  @desc verify password
 utilities.verifyPassword = async (password, hash) => {
     return await bcrypt.compare(password, hash)
 }
+
+
 // @desc generate token
 utilities.generateAccessToken = (info, expireIn) => {
     return jwt.sign(

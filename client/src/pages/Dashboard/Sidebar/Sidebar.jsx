@@ -17,8 +17,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
   const { pathname } = location;
   const [isOpen, setOpen] = useState(false);
-  const { theme } = useSelector(state => state.utility);
-  console.log(theme);
+  const { theme } = useSelector((state) => state.utility);
 
   return (
     <aside
