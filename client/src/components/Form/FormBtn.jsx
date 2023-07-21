@@ -4,7 +4,7 @@ const FormBtn = ({ title, type, ...attributes }) => {
     <>
       <button
         type={type}
-        className='bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 mt-4 w-full rounded focus:outline-none focus:shadow-outline'
+        className='bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 mt-4 w-1/2 rounded focus:outline-none focus:shadow-outline mx-auto '
         {...attributes}>
         {title}
       </button>

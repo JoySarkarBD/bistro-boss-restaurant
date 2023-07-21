@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../Features/auth/authApiSlice";
 import { setCredentials } from "../../Features/auth/authSlice";
 import signUpImg from "../../assets/others/authentication2.png";
+import ErrorMsg from "../../components/Form/ErrorMsg";
 import FormBtn from "../../components/Form/FormBtn";
 import TextInput from "../../components/Form/TextInput";
 import PageTitle from "../../components/Shared/PageTitle";
@@ -92,6 +93,8 @@ const Login = () => {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
               />
+
+              <ErrorMsg />
             </div>
             <div className='relative mb-4'>
               <TextInput
@@ -100,6 +103,7 @@ const Login = () => {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
               />
+              <ErrorMsg />
               <p className='text-left text-[#869CDB] cursor-pointer text-base mt-1'>
                 <Link to='/forget-password' className='font-normal'>
                   Forgot Password?
