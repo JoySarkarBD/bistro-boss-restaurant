@@ -1,3 +1,7 @@
 .activeStyle {
   color: #eeff25 !important;
 }
+
+.rightPosition {
+  right: -34%;
+}

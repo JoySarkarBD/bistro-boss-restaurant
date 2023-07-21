@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AiFillHome, AiFillShopping } from "react-icons/ai";
-import { BiMenuAltRight } from "react-icons/bi";
+import { BiMenuAltRight, BiUserPlus } from "react-icons/bi";
 import { BsBuildingFillAdd, BsFillCartFill } from "react-icons/bs";
 import { FiChevronRight } from "react-icons/fi";
 import { GoChevronDown } from "react-icons/go";
@@ -129,6 +129,20 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 </NavLink>
               </li>
               {/* <!-- User Home --> */}
+
+              {/* <!-- User Profile --> */}
+              <li>
+                <NavLink
+                  to='/dashboard/update-profile'
+                  className={`sidebar-menu-item ${
+                    pathname.includes("userHome") &&
+                    "bg-slate-300 dark:bg-meta-4"
+                  }`}>
+                  <BiUserPlus className='w-5 h-5' />
+                  Profile
+                </NavLink>
+              </li>
+              {/* <!-- User Profile --> */}
 
               {/* <!-- Payment History --> */}
               <li>

@@ -13,7 +13,9 @@ const Main = () => {
     location.pathname.includes("/verify-otp") ||
     location.pathname.includes("/update-profile");
   return (
-    <div>
+    <div
+      className='h-screen bg-Hero bg-cover
+    font-[Poppins] md:bg-top bg-center'>
       {noHeaderFooter || <Nav />}
       <Outlet />
       {noHeaderFooter || <Footer />}

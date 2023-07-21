@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import logo from "./../../../assets/logo.png";
+import DropLink from "./DropLink";
 import "./Nav.css";
 
 const Nav = () => {
+  const [open, setOpen] = useState(false);
   // Declare a state variable 'scroll' using the 'useState' hook
   const [scroll, setScroll] = useState(false);
 
@@ -27,7 +29,7 @@ const Nav = () => {
   //nav item options
   const navOptions = (
     <>
-      <li>
+      <li className='py-2'>
         <NavLink
           to='/'
           className={({ isActive }) =>
@@ -36,16 +38,7 @@ const Nav = () => {
           HOME
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          to='/dashboard'
-          className={({ isActive }) =>
-            isActive ? "activeStyle" : "hover:text-white"
-          }>
-          DASHBOARD
-        </NavLink>
-      </li>
-      <li>
+      <li className='py-2'>
         <NavLink
           to='/contact'
           className={({ isActive }) =>
@@ -54,7 +47,7 @@ const Nav = () => {
           CONTACT
         </NavLink>
       </li>
-      <li>
+      <li className='py-2'>
         <NavLink
           to='/menu'
           className={({ isActive }) =>
@@ -63,7 +56,7 @@ const Nav = () => {
           MENU
         </NavLink>
       </li>
-      <li>
+      <li className='py-2'>
         <NavLink
           to='/shop'
           className={({ isActive }) =>
@@ -72,7 +65,7 @@ const Nav = () => {
           SHOP
         </NavLink>
       </li>
-      <li>
+      <li className='py-2'>
         <NavLink
           to='/cart'
           className={({ isActive }) =>
@@ -96,64 +89,39 @@ const Nav = () => {
           </div>
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          to='/login'
-          className={({ isActive }) =>
-            isActive ? "activeStyle" : "hover:text-white"
-          }>
-          LOGIN
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to='/register'
-          className={({ isActive }) =>
-            isActive ? "activeStyle" : "hover:text-white"
-          }>
-          SIGN UP
-        </NavLink>
-      </li>
     </>
   );
+
   return (
     <div
       className={` ${
         scroll ? "bg-[#0f172a] duration-700" : "bg-transparent"
       } shadow-lg fixed z-10 left-0 right-0`}>
-      <div className='navbar justify-between text-white px-14'>
-        <div className='navbar-start w-5/6'>
-          <div className='dropdown'>
-            <label tabIndex='0' className='btn btn-ghost lg:hidden'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='h-6 w-6'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'>
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M4 6h16M4 12h8m-8 6h16'
-                />
-              </svg>
-            </label>
-            <ul
-              tabIndex='0'
-              className='menu menu-sm dropdown-content mt-3 p-2 shadow bg-black rounded-box w-52 text-white font-bold'>
-              {navOptions}
-            </ul>
+      <div className='flex justify-between font-medium  text-white px-14'>
+        <div className='z-50 p-5 md:w-auto w-full flex justify-between'>
+          <div className='w-full'>
+            <img src={logo} alt='logo' className='cursor-pointer h-9' />
           </div>
-          <Link to='/' className='px-6'>
-            <img src={logo} className='' alt='Logo' />
-          </Link>
+          <div
+            className='text-3xl md:hidden text-white'
+            onClick={() => setOpen(!open)}>
+            <ion-icon name={`${open ? "close" : "menu"}`}></ion-icon>
+          </div>
         </div>
-        <div className='navbar-center hidden lg:flex'>
-          <ul className='menu menu-horizontal items-center px-1 font-bold'>
-            {navOptions}
-          </ul>
-        </div>
+        <ul className='md:flex hidden uppercase font-semibold items-center gap-8 font-[Poppins]'>
+          {navOptions}
+          <DropLink />
+        </ul>
+
+        {/* Mobile nav */}
+        <ul
+          className={`
+        md:hidden bg-[#232D3A] fixed w-full top-0 overflow-y-auto bottom-0 py-24 pl-20
+        duration-500 ${open ? "left-0" : "left-[-100%]"}
+        `}>
+          <div className='my-5'>{navOptions}</div>
+          <DropLink />
+        </ul>
       </div>
     </div>
   );

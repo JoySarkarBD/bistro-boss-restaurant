@@ -15,7 +15,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login, { isLoading }] = useLoginMutation();
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ const Login = () => {
   }, [location.state?.isSuccess]);
 
   // @login user
-  const handleLogin = async (e) => {
+  const handleLogin = async e => {
     e.preventDefault();
     const loginInfo = { email, password };
     try {
@@ -90,7 +90,7 @@ const Login = () => {
                 title='Email'
                 type='email'
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
               />
             </div>
             <div className='relative mb-4'>
@@ -98,7 +98,7 @@ const Login = () => {
                 title='Password'
                 type='password'
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
               />
               <p className='text-left text-[#869CDB] cursor-pointer text-base mt-1'>
                 <Link to='/forget-password' className='font-normal'>
