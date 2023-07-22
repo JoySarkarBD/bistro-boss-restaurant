@@ -1,23 +1,23 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Toaster } from "react-hot-toast";
 import FormBtn from "./FormBtn";
 import TextInput from "./TextInput";
 
 // eslint-disable-next-line react/prop-types
-const UpdateProfileForm = ({ userData }) => {
+const UserProfileForm = ({ userData }) => {
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  useEffect(() => {
-    setEmail(userData?.email);
-  }, [userData?.email]);
+  // useEffect(() => {
+  //   setEmail(userData?.email);
+  // }, [userData?.email]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const userInfo = {
       name,
@@ -50,7 +50,7 @@ const UpdateProfileForm = ({ userData }) => {
               id='name'
               name='name'
               placeholder='Type your name'
-              onChange={(e) => setName(e.target.value)}
+              onChange={e => setName(e.target.value)}
             />
           </div>
 
@@ -61,8 +61,8 @@ const UpdateProfileForm = ({ userData }) => {
               type='email'
               id='email'
               name='email'
-              defaultValue={email}
-              readOnly={email ? true : false}
+              // defaultValue={email}
+              // readOnly={email ? true : false}
               placeholder='Enter your email'
             />
           </div>
@@ -75,7 +75,7 @@ const UpdateProfileForm = ({ userData }) => {
               id='address'
               name='address'
               value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={e => setAddress(e.target.value)}
               placeholder='Enter your address'
             />
           </div>
@@ -88,7 +88,7 @@ const UpdateProfileForm = ({ userData }) => {
               id='password'
               name='password'
               placeholder='Choose a password'
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
             />
           </div>
 
@@ -100,7 +100,7 @@ const UpdateProfileForm = ({ userData }) => {
               id='confirmPassword '
               name='confirmPassword'
               placeholder='Enter confirm password'
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={e => setConfirmPassword(e.target.value)}
             />
           </div>
         </div>
@@ -128,4 +128,4 @@ const UpdateProfileForm = ({ userData }) => {
   );
 };
 
-export default UpdateProfileForm;
+export default UserProfileForm;

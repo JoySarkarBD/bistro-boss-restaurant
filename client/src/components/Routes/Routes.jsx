@@ -11,7 +11,7 @@ import Menu from "../../pages/Menu/Menu";
 import Product from "../../pages/Product/Product";
 import Register from "../../pages/Register/Register";
 import Shop from "../../pages/Shop/Shop";
-import UpdateProfile from "../../pages/UpdateProfile/UpdateProfile";
+import UserProfile from "../../pages/UserProfile/UserProfile";
 import VerifyOTP from "../../pages/VerifyOTP/VerifyOTP";
 import VerifyUser from "../../pages/VerifyUser/VerifyUser";
 import ErrorPage from "../../ui/ErrorPage";
@@ -73,10 +73,6 @@ const router = createBrowserRouter([
         element: <ResetPassword />,
       },
       {
-        path: "update-profile",
-        element: <UpdateProfile />,
-      },
-      {
         path: "verifyUser/:userId",
         element: <VerifyUser />,
       },
@@ -95,6 +91,10 @@ const router = createBrowserRouter([
       {
         path: "ecommerce",
         element: <Product />,
+      },
+      {
+        path: "profile",
+        element: <UserProfile />,
       },
     ],
   },
