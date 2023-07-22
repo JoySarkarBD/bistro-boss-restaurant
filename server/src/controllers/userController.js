@@ -17,10 +17,11 @@ const {
 // @desc    Register a user
 // @route   POST /api/v1/users/register
 // @access  Public
-const registerUser = async (req, res) => {
+const registerUser = async (req, res, next) => {
     try {
-        const {email, password} = req.body
+        const {name, email, password} = req.body
         const newUser = await new UserModel({
+            name,
             email,
             password: await hashPassword(password, 10)
         }).save();
@@ -31,7 +32,7 @@ const registerUser = async (req, res) => {
               <div style="text-align: center; padding: 20px;">
                 <h2>Email Verification</h2>
                 <p>Thank you for registering. Please click the button below to verify your email address:</p>
-                <a href=http://localhost:3000/verifyUser/${newUser._id} style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px;">Verify Email</a>
+                <a href=${process.env.FRONTEND_URL}/verifyUser/${newUser._id} style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px;">Verify Email</a>
                 <p>If you did not create an account, you can safely ignore this email.</p>
               </div>
             
@@ -46,27 +47,19 @@ const registerUser = async (req, res) => {
             // check mail successfully sent or not
             if (mailResult?.messageId) {
                 res.status(200).json({
-                    status: 'success',
-                    data: {
-                        userId: newUser?._id,
-                        email: newUser?.email,
-                    },
-                    msg: `A mail was sent to your ${newUser?.email}. Please verify`
+                    msg: 'success',
+                    data: `A mail was sent to your ${newUser?.email}. Please verify`
                 })
             } else {
-                res.status(400).json({
-                    status: 'failed',
-                    data: 'something is wrong',
-
-                })
+                return next(createError(403, 'Email could not sent this time'))
             }
 
         }
 
     } catch (error) {
         res.status(404).json({
-            status: 'failed',
-            data: error?.message
+            msg: 'failed',
+            err: error?.message
         });
     }
 };
@@ -216,14 +209,14 @@ const loginUser = async (req, res) => {
         } else {
             res.status(403).json({
                 msg: 'failed',
-                data: 'username or password does not matched'
+                err: 'username or password does not matched'
             })
         }
 
     } catch (e) {
-        res.status(400).json({
+        res.status(404).json({
             msg: 'failed',
-            data: e.message
+            err: e.message
         })
     }
 }

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useFormik } from "formik";
+import { useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -9,14 +10,13 @@ import ErrorMsg from "../../components/Form/ErrorMsg";
 import FormBtn from "../../components/Form/FormBtn";
 import TextInput from "../../components/Form/TextInput";
 import PageTitle from "../../components/Shared/PageTitle";
+import { signinSchema } from "../../schema/validation";
 import "../Register/Register.css";
 
 const Login = () => {
   const location = useLocation();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [login, { isLoading }] = useLoginMutation();
-  const auth = useSelector(state => state.auth);
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -27,8 +27,8 @@ const Login = () => {
     }
   }, [location.state?.isSuccess]);
 
-  // @login user
-  const handleLogin = async e => {
+  /*  // @login user
+  const handleLogin = async (e) => {
     e.preventDefault();
     const loginInfo = { email, password };
     try {
@@ -63,6 +63,59 @@ const Login = () => {
       }
     }
   };
+ */
+  // initial values
+  let initialValues = {
+    email: "",
+    password: "",
+  };
+
+  // regest function
+  const {
+    values,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    touched,
+    errors,
+    setErrors,
+  } = useFormik({
+    initialValues,
+    validationSchema: signinSchema,
+    onSubmit: async (values) => {
+      try {
+        const { email, password } = values;
+        const userData = await login({ email, password }).unwrap();
+        if (userData?.msg === "success" && userData?.data?.accessToken) {
+          localStorage.setItem(
+            "userInfo",
+            JSON.stringify(userData?.data?.userInfo)
+          );
+
+          //dispatch action [store user stuff]
+          dispatch(
+            setCredentials({
+              accessToken: userData?.data?.accessToken,
+              roles: userData?.data?.roles,
+              userInfo: userData?.data?.userInfo,
+            })
+          );
+        } else {
+          toast.error("Something wrong , please try again later", {
+            duration: 2000,
+          });
+        }
+      } catch (error) {
+        let errorStatus = [404, 403];
+        if (error.status === 400) {
+          setErrors(error?.data?.errors);
+        }
+        if (errorStatus.includes(error.status)) {
+          toast.error(error.data.err, { duration: 2000 });
+        }
+      }
+    },
+  });
 
   // @desc navigate to homepage if users all stuff is good
   useEffect(() => {
@@ -81,7 +134,7 @@ const Login = () => {
             <img src={signUpImg} alt='signUp-image' className='w-2/3 mx-auto' />
           </div>
           <form
-            onSubmit={handleLogin}
+            onSubmit={handleSubmit}
             className='lg:w-2/5	 md:w-2/5	 bg-transparent border-2 border-indigo-500 bg-opacity-50 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0'>
             <h2 className='text-4xl text-black font-semibold title-font mb-5'>
               Log In
@@ -90,20 +143,28 @@ const Login = () => {
               <TextInput
                 title='Email'
                 type='email'
-                value={email}
-                onChange={e => setEmail(e.target.value)}
+                name='email'
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
 
-              <ErrorMsg />
+              {errors.email && touched.email ? (
+                <ErrorMsg subject={errors.email} />
+              ) : null}
             </div>
             <div className='relative mb-4'>
               <TextInput
                 title='Password'
                 type='password'
-                value={password}
-                onChange={e => setPassword(e.target.value)}
+                name='password'
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
-              <ErrorMsg />
+              {errors.password && touched.password ? (
+                <ErrorMsg subject={errors.password} />
+              ) : null}
               <p className='text-left text-[#869CDB] cursor-pointer text-base mt-1'>
                 <Link to='/forget-password' className='font-normal'>
                   Forgot Password?

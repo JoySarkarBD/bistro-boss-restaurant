@@ -13,13 +13,13 @@ const errorHandler = (err, req, res, next) => {
         const errCode = err.status || 500
         if (err.message) {
             res.status(errCode).json({
-                status: 'failed',
-                data: err.message
+                msg: 'failed',
+                err: err.message
             })
         } else {
             res.status(errCode).json({
-                status: 'failed',
-                data: 'Internal server error'
+                msg: 'failed',
+                err: 'Internal server error'
             })
         }
     }

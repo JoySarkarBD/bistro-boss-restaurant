@@ -1,44 +1,59 @@
-import { useState } from "react";
+import { useFormik } from "formik";
+import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { useRegistrationMutation } from "../../Features/auth/authApiSlice";
-import CheckInput from "../../components/Form/CheckInput";
 import ErrorMsg from "../../components/Form/ErrorMsg";
 import FormBtn from "../../components/Form/FormBtn";
 import TextInput from "../../components/Form/TextInput";
 import PageTitle from "../../components/Shared/PageTitle";
+import { signupSchema } from "../../schema/validation";
 import "./Register.css";
 
 const Register = () => {
-  const [registration, { isError, isLoading, isSuccess }] =
-    useRegistrationMutation();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setconfirmPassword] = useState("");
+  const [registration, { isLoading }] = useRegistrationMutation();
+
+  // initial values
+  let initialValues = {
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  };
 
   // regest function
-  const handleRegister = async e => {
-    e.preventDefault();
-    try {
-      const userData = await registration({ email, password }).unwrap();
-      console.log(userData);
-    } catch (err) {
-      console.log(err);
-      if (!err?.originalStatus) {
-        // isLoading: true until timeout occurs
-        console.log("No Server Response");
-      } else if (err.originalStatus === 400) {
-        console.log("Missing Username or Password");
-      } else if (err.originalStatus === 401) {
-        console.log("Unauthorized");
-      } else {
-        console.log("Login Failed");
+  const {
+    values,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    touched,
+    errors,
+    setErrors,
+  } = useFormik({
+    initialValues,
+    validationSchema: signupSchema,
+    onSubmit: async (values) => {
+      try {
+        const { name, email, password } = values;
+        const response = await registration({ name, email, password }).unwrap();
+        if (response.msg === "success") {
+          toast.success(response.data, { duration: 2000 });
+        }
+      } catch (error) {
+        let errorStatus = [404, 403];
+        if (error.status === 400) {
+          setErrors(error?.data?.errors);
+        }
+        if (errorStatus.includes(error.status)) {
+          toast.error(error.data.err, { duration: 2000 });
+        }
       }
-    }
-  };
+    },
+  });
 
   return (
     <>
+      <Toaster />
       <PageTitle title='Sign Up' />
       <section className='text-gray-600 body-font relative h-screen bg-authBg'>
         <div className='container px-5 py-16 mx-auto'>
@@ -48,17 +63,20 @@ const Register = () => {
             </h2>
           </div>
           <div className='lg:w-1/2 md:w-2/3 mx-auto'>
-            <form onSubmit={handleRegister} className='flex flex-wrap  -m-2'>
+            <form className='flex flex-wrap  -m-2' onSubmit={handleSubmit}>
               <div className='p-2 w-1/2'>
                 <div className='relative'>
                   <TextInput
                     name='name'
                     title='name'
                     type='text'
-                    value={name}
-                    onChange={e => setName(e.target.value)}
+                    value={values.name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
-                  <ErrorMsg />
+                  {errors.name && touched.name ? (
+                    <ErrorMsg subject={errors.name} />
+                  ) : null}
                 </div>
               </div>
               <div className='p-2 w-1/2'>
@@ -67,10 +85,13 @@ const Register = () => {
                     name='email'
                     title='email'
                     type='text'
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
+                    value={values.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
-                  <ErrorMsg />
+                  {errors.email && touched.email ? (
+                    <ErrorMsg subject={errors.email} />
+                  ) : null}
                 </div>
               </div>
               <div className='p-2 w-1/2'>
@@ -79,10 +100,13 @@ const Register = () => {
                     name='password'
                     title='password'
                     type='password'
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
+                    value={values.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
-                  <ErrorMsg />
+                  {errors.password && touched.password ? (
+                    <ErrorMsg subject={errors.password} />
+                  ) : null}
                 </div>
               </div>
               <div className='p-2 w-1/2'>
@@ -91,24 +115,23 @@ const Register = () => {
                     name='confirmPassword'
                     title='confirm password'
                     type='password'
-                    value={confirmPassword}
-                    onChange={e => setconfirmPassword(e.target.value)}
+                    value={values.confirmPassword}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
-                  <ErrorMsg />
+                  {errors.confirmPassword && touched.confirmPassword ? (
+                    <ErrorMsg subject={errors.confirmPassword} />
+                  ) : null}
                 </div>
               </div>
-              <div className='p-2 w-full'>
-                <div className='relative'>
-                  <CheckInput
-                    title='I accept terms & conditions'
-                    type='checkbox'
-                    checked='checked'
-                  />
-                  <ErrorMsg />
-                </div>
-              </div>
-              <FormBtn type='submit' title='submit' />
+
+              <FormBtn
+                type='submit'
+                disabled={isLoading}
+                title={isLoading ? "Loading..." : "Registration"}
+              />
             </form>
+
             <p className='text-center text-[#D99904] cursor-pointer text-base mt-3'>
               Have an Account?{" "}
               <Link to='/login' className='font-semibold'>

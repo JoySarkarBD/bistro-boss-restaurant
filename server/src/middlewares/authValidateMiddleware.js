@@ -4,6 +4,9 @@ const UserModel = require("../models/UserModel");
 
 // email validate
 const registrationFieldValidate = [
+    // name
+    check('name').trim().notEmpty().withMessage('Name required').isLength({min: 2, max: 31}),
+
     //email
     check("email")
         .trim()
@@ -23,8 +26,11 @@ const registrationFieldValidate = [
                 throw  createError(e.message)
             }
         }),
+
     // password
-    check('password').notEmpty().withMessage('Password required')
+    check('password').notEmpty().withMessage('Password required').isStrongPassword({
+        minLength: 8, minLowercase: 1, minNumbers: 1, minUppercase: 1, minSymbols: 1,
+    }).withMessage('Min 8 char and include at least 1 letter, 1 number and 1 special character!')
 ]
 
 // validate handler
@@ -34,14 +40,14 @@ const validateErrorResult = (req, res, next) => {
     if (Object.keys(errors).length === 0) {
         next()
     } else {
-        let errorArr = []
+        let errorObj = {}
         for (let error in errors) {
-            errorArr.push({[error]: errors[error].msg})
+            errorObj[error] = errors[error].msg
         }
 
         res.status(400).json({
             msg: 'failed',
-            errors: errorArr
+            errors: errorObj
         })
     }
 }
@@ -149,6 +155,7 @@ const otpCodeFieldValidation = [
         .isLength({max: 4, min: 4}).withMessage('OTP Must be 4 char long')
 
 ]
+
 // otp field validation
 const resetPasswordFieldValidation = [
 

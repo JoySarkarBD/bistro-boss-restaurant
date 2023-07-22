@@ -26,8 +26,6 @@ const VerifyUser = () => {
           );
 
           navigate("/");
-          /* setUserData(data);
-          setLoading(false); */
         } else {
           navigate("/");
         }
