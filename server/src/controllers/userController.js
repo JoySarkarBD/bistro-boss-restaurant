@@ -317,7 +317,7 @@ const verifyOtp = async (req, res, next) => {
 
 
     } catch (e) {
-        next(createError(400, e.message))
+        next(createError(404, e.message))
     }
 }
 

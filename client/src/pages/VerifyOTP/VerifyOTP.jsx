@@ -2,17 +2,23 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 
+import { useFormik } from "formik";
 import { fromatTime } from "../../../lib/timeFormator";
-import { useVerifyOtpMutation } from "../../Features/auth/authApiSlice";
+import {
+  useOtpMutation,
+  useVerifyOtpMutation,
+} from "../../Features/auth/authApiSlice";
 import cupcake from "../../assets/others/cupcake-dribbble.gif";
+import ErrorMsg from "../../components/Form/ErrorMsg";
 import FormBtn from "../../components/Form/FormBtn";
 import TextInput from "../../components/Form/TextInput";
 import PageTitle from "../../components/Shared/PageTitle";
+import { otpSchema } from "../../schema/validation";
 
 const VerifyOTP = () => {
   const [counter, setCounter] = useState(300);
-  const [otp, setOtp] = useState("");
   const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
+  const [otp, { isLoading: loading }] = useOtpMutation();
   const [email, setEmail] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -41,32 +47,68 @@ const VerifyOTP = () => {
     return () => clearInterval(timer);
   }, [counter]);
 
-  const verifiedOTP = async () => {
-    try {
-      const response = await verifyOtp({ otp, email }).unwrap();
-      if (response.status === "success" && response?.data.status) {
-        navigate("/reset-password", { state: { email: response?.data.email } });
+  //  @desc verify otp
+  const {
+    values,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    touched,
+    errors,
+    setErrors,
+  } = useFormik({
+    initialValues: {
+      otp: "",
+    },
+    validationSchema: otpSchema,
+    onSubmit: async (values) => {
+      try {
+        const { otp } = values;
+        const response = await verifyOtp({ otp, email }).unwrap();
+        if (response.status === "success" && response?.data.status) {
+          navigate("/reset-password", {
+            state: { email: response?.data.email },
+          });
+        } else {
+          toast.error("Something wrong , please try again later", {
+            duration: 2000,
+          });
+        }
+      } catch (error) {
+        let errorStatus = [403, 401, 404];
+        if (error.status === 400) {
+          setErrors(error?.data?.errors);
+        }
+        if (errorStatus.includes(error.status)) {
+          toast.error(error.data.err, { duration: 2000 });
+        }
       }
-    } catch (error) {
-      if (error.status === 400) {
-        return toast.error(error.data.errors[0].otp, { duration: 2000 });
-      }
-      if (error.status === 401) {
-        return toast.error("Unauthorized user", { duration: 2000 });
-      }
-      if (error.status === 403 && error.data.data === "OTP already used") {
-        return toast.error(error.data.data, { duration: 2000 });
-      }
-      if (error.status === 403 && error.data.data === "OTP Expired") {
-        return toast.error(error.data.data, { duration: 2000 });
-      }
-    }
-  };
+    },
+  });
 
   // @desc resend otp
-  const resendOtp = () => {
-    setCounter(10);
-    console.log(email);
+  const resendOtp = async () => {
+    setCounter(300);
+    try {
+      const otpData = await otp({ email }).unwrap();
+      if (otpData.status === "success" && otpData?.data?.email) {
+        toast.success("OTP send successfully", {
+          duration: 3000,
+        });
+      } else {
+        toast.error("Something wrong , please try again later", {
+          duration: 2000,
+        });
+      }
+    } catch (error) {
+      let errorStatus = [404, 401, 500];
+      if (error.status === 400) {
+        setErrors(error?.data?.errors);
+      }
+      if (errorStatus.includes(error.status)) {
+        toast.error(error.data.err, { duration: 2000 });
+      }
+    }
   };
 
   return (
@@ -86,31 +128,38 @@ const VerifyOTP = () => {
                 className='w-2/3 mx-auto h-[200px]'
               />
             </div>
-            <div className='flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:px-0 items-end sm:space-x-4 sm:space-y-0 space-y-4'>
+            <form
+              className='flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:px-0 items-end sm:space-x-4 sm:space-y-0 space-y-4'
+              onSubmit={handleSubmit}>
               <div className='relative sm:mb-0 flex-grow w-full'>
                 <h4>{fromatTime(counter)}</h4>
                 <TextInput
-                  // title='otp'
                   name='otp'
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
+                  value={values.otp}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                   placeholder='Enter OTP...'
                 />
-                {/* <input type="text" value={otp} onChange={(e)=> setOtp(e.target.value)} /> */}
-                <FormBtn
-                  type='button'
-                  title='verify OTP'
-                  onClick={verifiedOTP}
-                  disabled={isLoading}
-                />
-                <FormBtn
-                  type='button'
-                  title='Resend'
-                  onClick={resendOtp}
-                  disabled={counter}
-                />
+                {errors.otp && touched.otp ? (
+                  <ErrorMsg subject={errors.otp} />
+                ) : null}
+                <div className='w-full h-full  text-center'>
+                  <FormBtn
+                    title={isLoading ? "Loading..." : "Verify OTP"}
+                    type='submit'
+                    disabled={isLoading}
+                  />
+                </div>
+                <div className='w-full h-full  text-center'>
+                  <FormBtn
+                    type='button'
+                    title={loading ? "Loading..." : "Resend"}
+                    onClick={resendOtp}
+                    disabled={counter}
+                  />
+                </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </section>

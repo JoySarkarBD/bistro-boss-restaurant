@@ -14,25 +14,6 @@ const ForgetPassword = () => {
   const [otp, { isLoading }] = useOtpMutation();
 
   // @desc verify otp func
-  /* const handleVerifyOtp = async () => {
-    toast.success("OTP sending", { duration: 3000 });
-    try {
-      const otpData = await otp({ email }).unwrap();
-      if (otpData.status === "success" && otpData?.data?.email) {
-        navigate("/verify-otp", { state: otpData });
-      }
-    } catch (error) {
-      if (error.status === 400 && error.data.msg === "failed") {
-        return toast.error(error.data.errors[0].email);
-      }
-      if (error.status === 401) {
-        return toast.error("Unauthorized user");
-      }
-    }
-  };
- */
-
-  //
   const {
     values,
     handleBlur,
@@ -49,6 +30,7 @@ const ForgetPassword = () => {
     onSubmit: async (values) => {
       try {
         const { email } = values;
+        toast.success("OTP sending...", { duration: 3000 });
         const otpData = await otp({ email }).unwrap();
         if (otpData.status === "success" && otpData?.data?.email) {
           navigate("/verify-otp", { state: otpData });
@@ -86,10 +68,10 @@ const ForgetPassword = () => {
                 className='w-2/3 mx-auto h-[200px]'
               />
             </div>
-            <div className='flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:px-0 items-end sm:space-x-4 sm:space-y-0 space-y-4'>
-              <form
-                className='relative sm:mb-0 flex-grow w-full'
-                onSubmit={handleSubmit}>
+            <form
+              className='flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:px-0 items-end sm:space-x-4 sm:space-y-0 space-y-4'
+              onSubmit={handleSubmit}>
+              <div className='relative sm:mb-0 flex-grow w-full'>
                 <TextInput
                   title='Email'
                   type='email'
@@ -101,9 +83,15 @@ const ForgetPassword = () => {
                 {errors.email && touched.email ? (
                   <ErrorMsg subject={errors.email} />
                 ) : null}
-                <FormBtn type='submit' title='OTP send' disabled={isLoading} />
-              </form>
-            </div>
+                <div className='w-full h-full  text-center'>
+                  <FormBtn
+                    type='submit'
+                    disabled={isLoading}
+                    title={isLoading ? "Loading..." : "Send"}
+                  />
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </section>

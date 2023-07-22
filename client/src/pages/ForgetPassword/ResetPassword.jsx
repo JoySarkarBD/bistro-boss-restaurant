@@ -1,17 +1,18 @@
+import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useResetPasswordMutation } from "../../Features/auth/authApiSlice";
 import cupcake from "../../assets/others/cupcake-dribbble.gif";
+import ErrorMsg from "../../components/Form/ErrorMsg";
 import FormBtn from "../../components/Form/FormBtn";
 import TextInput from "../../components/Form/TextInput";
 import PageTitle from "../../components/Shared/PageTitle";
+import { resetPasswordSchema } from "../../schema/validation";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const location = useLocation();
   const [resetPassword, { isLoading }] = useResetPasswordMutation();
 
@@ -24,28 +25,42 @@ const ResetPassword = () => {
   }, [location.state?.email]);
 
   // @desc reset password
-  const handleResetPassword = async () => {
-    try {
-      if (password !== confirmPassword) {
-        return toast.error("Password does not match");
-      } else {
+  const {
+    values,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    touched,
+    errors,
+    setErrors,
+  } = useFormik({
+    initialValues: {
+      password: "",
+      confirmPassword: "",
+    },
+    validationSchema: resetPasswordSchema,
+    onSubmit: async (values) => {
+      try {
+        const { password } = values;
         const response = await resetPassword({ password, email }).unwrap();
         if (response.msg === "success") {
           navigate("/login", { state: { isSuccess: true } });
+        } else {
+          toast.error("Something wrong , please try again later", {
+            duration: 2000,
+          });
+        }
+      } catch (error) {
+        let errorStatus = [500, 401, 404];
+        if (error.status === 400) {
+          setErrors(error?.data?.errors);
+        }
+        if (errorStatus.includes(error.status)) {
+          toast.error(error.data.err, { duration: 2000 });
         }
       }
-    } catch (error) {
-      if (error.status === 400) {
-        return toast.error(error.data.errors[0].password);
-      }
-      if (error.status === 401) {
-        return toast.error("Unauthorized user");
-      }
-      if (error.status === 500) {
-        return toast.error("'Internal server error'");
-      }
-    }
-  };
+    },
+  });
 
   return (
     <div>
@@ -65,15 +80,21 @@ const ResetPassword = () => {
               />
             </div>
             <div className='flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:px-0 items-end sm:space-x-4 sm:space-y-0 space-y-4'>
-              <div className='relative sm:mb-0 flex-grow w-full'>
+              <form
+                className='relative sm:mb-0 flex-grow w-full'
+                onSubmit={handleSubmit}>
                 <div className='mb-4'>
                   <TextInput
                     title='New password'
                     type='password'
                     name='password'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    value={values.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
+                  {errors.password && touched.password ? (
+                    <ErrorMsg subject={errors.password} />
+                  ) : null}
                 </div>
 
                 <div className='mb-4'>
@@ -81,21 +102,25 @@ const ResetPassword = () => {
                     title='Confirm password'
                     type='password'
                     name='confirmPassword'
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    value={values.confirmPassword}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  {errors.confirmPassword && touched.confirmPassword ? (
+                    <ErrorMsg subject={errors.confirmPassword} />
+                  ) : null}
+                </div>
+                <div className='w-full h-full  text-center'>
+                  <FormBtn
+                    type='submit'
+                    title={isLoading ? "Loading..." : "Reset"}
+                    disabled={isLoading}
                   />
                 </div>
-                <FormBtn
-                  type='submit'
-                  title='confirm'
-                  disabled={isLoading}
-                  onClick={handleResetPassword}
-                />
-              </div>
+              </form>
             </div>
           </div>
         </div>
-        s
       </section>
     </div>
   );

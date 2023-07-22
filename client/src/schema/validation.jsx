@@ -38,6 +38,25 @@ export const forgetPasswordSchema = Yup.object({
     .required("Email required"),
 });
 
+// forget password
+export const otpSchema = Yup.object({
+  otp: Yup.number("Otp must be number type").required("OTP required"),
+});
+
+// reset password
+export const resetPasswordSchema = Yup.object({
+  password: Yup.string()
+    .min(8)
+    .max(20)
+    .matches(passwordRules, {
+      message: `Min 8 char and include at least 1 letter, 1 number and 1 special character!`,
+    })
+    .required("Password required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Password don't match")
+    .required("Confirm password is required"),
+});
+
 /* image: Yup.mixed()
     .nullable()
     .required()
