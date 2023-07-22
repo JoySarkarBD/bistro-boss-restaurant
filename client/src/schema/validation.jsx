@@ -30,6 +30,14 @@ export const signinSchema = Yup.object({
   password: Yup.string().min(8).max(20).required("Password required"),
 });
 
+// forget password
+export const forgetPasswordSchema = Yup.object({
+  email: Yup.string()
+    .email()
+    .matches(emailRules, { message: "Field should contain a valid e-mail" })
+    .required("Email required"),
+});
+
 /* image: Yup.mixed()
     .nullable()
     .required()

@@ -1,19 +1,20 @@
-import { useState } from "react";
+import { useFormik } from "formik";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useOtpMutation } from "../../Features/auth/authApiSlice";
 import cupcake from "../../assets/others/cupcake-dribbble.gif";
+import ErrorMsg from "../../components/Form/ErrorMsg";
 import FormBtn from "../../components/Form/FormBtn";
 import TextInput from "../../components/Form/TextInput";
 import PageTitle from "../../components/Shared/PageTitle";
+import { forgetPasswordSchema } from "../../schema/validation";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
   const [otp, { isLoading }] = useOtpMutation();
 
   // @desc verify otp func
-  const handleVerifyOtp = async () => {
+  /* const handleVerifyOtp = async () => {
     toast.success("OTP sending", { duration: 3000 });
     try {
       const otpData = await otp({ email }).unwrap();
@@ -29,6 +30,44 @@ const ForgetPassword = () => {
       }
     }
   };
+ */
+
+  //
+  const {
+    values,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    touched,
+    errors,
+    setErrors,
+  } = useFormik({
+    initialValues: {
+      email: "",
+    },
+    validationSchema: forgetPasswordSchema,
+    onSubmit: async (values) => {
+      try {
+        const { email } = values;
+        const otpData = await otp({ email }).unwrap();
+        if (otpData.status === "success" && otpData?.data?.email) {
+          navigate("/verify-otp", { state: otpData });
+        } else {
+          toast.error("Something wrong , please try again later", {
+            duration: 2000,
+          });
+        }
+      } catch (error) {
+        let errorStatus = [404, 401, 500];
+        if (error.status === 400) {
+          setErrors(error?.data?.errors);
+        }
+        if (errorStatus.includes(error.status)) {
+          toast.error(error.data.err, { duration: 2000 });
+        }
+      }
+    },
+  });
 
   return (
     <div>
@@ -48,20 +87,22 @@ const ForgetPassword = () => {
               />
             </div>
             <div className='flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:px-0 items-end sm:space-x-4 sm:space-y-0 space-y-4'>
-              <div className='relative sm:mb-0 flex-grow w-full'>
+              <form
+                className='relative sm:mb-0 flex-grow w-full'
+                onSubmit={handleSubmit}>
                 <TextInput
                   title='Email'
                   type='email'
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  name='email'
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
-                <FormBtn
-                  type='submit'
-                  title='OTP send'
-                  disabled={isLoading}
-                  onClick={handleVerifyOtp}
-                />
-              </div>
+                {errors.email && touched.email ? (
+                  <ErrorMsg subject={errors.email} />
+                ) : null}
+                <FormBtn type='submit' title='OTP send' disabled={isLoading} />
+              </form>
             </div>
           </div>
         </div>

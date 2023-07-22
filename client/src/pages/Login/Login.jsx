@@ -27,50 +27,13 @@ const Login = () => {
     }
   }, [location.state?.isSuccess]);
 
-  /*  // @login user
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    const loginInfo = { email, password };
-    try {
-      const userData = await login(loginInfo).unwrap();
-      if (userData?.msg === "success" && userData?.data?.accessToken) {
-        localStorage.setItem(
-          "userInfo",
-          JSON.stringify(userData?.data?.userInfo)
-        );
-
-        //dispatch action [store user stuff]
-        dispatch(
-          setCredentials({
-            accessToken: userData?.data?.accessToken,
-            roles: userData?.data?.roles,
-            userInfo: userData?.data?.userInfo,
-          })
-        );
-      } else {
-        console.log("server error");
-      }
-    } catch (error) {
-      if (error.status === 400 && error.data.msg === "failed") {
-        return toast.error("Wrong email or password");
-      }
-
-      if (error.status === 403) {
-        return toast.error("username or password does not matched");
-      }
-      if (error.status === 401) {
-        return toast.error("Unauthorized user");
-      }
-    }
-  };
- */
   // initial values
   let initialValues = {
     email: "",
     password: "",
   };
 
-  // regest function
+  // login function
   const {
     values,
     handleBlur,
