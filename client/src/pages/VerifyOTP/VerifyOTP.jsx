@@ -86,31 +86,35 @@ const VerifyOTP = () => {
                 className='w-2/3 mx-auto h-[200px]'
               />
             </div>
-            <div className='flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:px-0 items-end sm:space-x-4 sm:space-y-0 space-y-4'>
+            <form className='flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:px-0 items-end sm:space-x-4 sm:space-y-0 space-y-4'>
               <div className='relative sm:mb-0 flex-grow w-full'>
                 <h4>{fromatTime(counter)}</h4>
                 <TextInput
                   // title='otp'
                   name='otp'
                   value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
+                  onChange={e => setOtp(e.target.value)}
                   placeholder='Enter OTP...'
                 />
                 {/* <input type="text" value={otp} onChange={(e)=> setOtp(e.target.value)} /> */}
-                <FormBtn
-                  type='button'
-                  title='verify OTP'
-                  onClick={verifiedOTP}
-                  disabled={isLoading}
-                />
-                <FormBtn
-                  type='button'
-                  title='Resend'
-                  onClick={resendOtp}
-                  disabled={counter}
-                />
+                <div className='w-full h-full  text-center'>
+                  <FormBtn
+                    type='button'
+                    title='verify OTP'
+                    onClick={verifiedOTP}
+                    disabled={isLoading}
+                  />
+                </div>
+                <div className='w-full h-full  text-center'>
+                  <FormBtn
+                    type='button'
+                    title='Resend'
+                    onClick={resendOtp}
+                    disabled={counter}
+                  />
+                </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </section>

@@ -47,22 +47,24 @@ const ForgetPassword = () => {
                 className='w-2/3 mx-auto h-[200px]'
               />
             </div>
-            <div className='flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:px-0 items-end sm:space-x-4 sm:space-y-0 space-y-4'>
+            <form className='flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:px-0 items-end sm:space-x-4 sm:space-y-0 space-y-4'>
               <div className='relative sm:mb-0 flex-grow w-full'>
                 <TextInput
                   title='Email'
                   type='email'
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={e => setEmail(e.target.value)}
                 />
-                <FormBtn
-                  type='submit'
-                  title='OTP send'
-                  disabled={isLoading}
-                  onClick={handleVerifyOtp}
-                />
+                <div className='w-full h-full  text-center'>
+                  <FormBtn
+                    type='submit'
+                    title='OTP send'
+                    disabled={isLoading}
+                    onClick={handleVerifyOtp}
+                  />
+                </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </section>

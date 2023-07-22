@@ -65,14 +65,14 @@ const ResetPassword = () => {
               />
             </div>
             <div className='flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:px-0 items-end sm:space-x-4 sm:space-y-0 space-y-4'>
-              <div className='relative sm:mb-0 flex-grow w-full'>
+              <form className='relative sm:mb-0 flex-grow w-full'>
                 <div className='mb-4'>
                   <TextInput
                     title='New password'
                     type='password'
                     name='password'
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={e => setPassword(e.target.value)}
                   />
                 </div>
 
@@ -82,20 +82,21 @@ const ResetPassword = () => {
                     type='password'
                     name='confirmPassword'
                     value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    onChange={e => setConfirmPassword(e.target.value)}
                   />
                 </div>
-                <FormBtn
-                  type='submit'
-                  title='confirm'
-                  disabled={isLoading}
-                  onClick={handleResetPassword}
-                />
-              </div>
+                <div className='w-full h-full  text-center'>
+                  <FormBtn
+                    type='submit'
+                    title='confirm'
+                    disabled={isLoading}
+                    onClick={handleResetPassword}
+                  />
+                </div>
+              </form>
             </div>
           </div>
         </div>
-        s
       </section>
     </div>
   );
