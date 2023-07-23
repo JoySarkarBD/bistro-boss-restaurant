@@ -41,6 +41,12 @@ export const authApiSlice = authAPi.injectEndpoints({
         body: data,
       }),
     }),
+
+    refreshToken: builder.query({
+      query: () => ({
+        url: "/refresh-token",
+      }),
+    }),
   }),
 });
 
@@ -50,4 +56,5 @@ export const {
   useOtpMutation,
   useVerifyOtpMutation,
   useResetPasswordMutation,
+  useRefreshTokenQuery,
 } = authApiSlice;

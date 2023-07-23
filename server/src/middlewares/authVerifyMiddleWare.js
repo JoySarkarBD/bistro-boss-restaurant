@@ -12,9 +12,10 @@ const authVerifyMiddleWare = (req, res, next) => {
             if (error) return res.sendStatus(403) //if jwt expired or any kind of jwt error
             //     find user from database & check it with decoded data
 
-            let user = await UserModel.findById(decode?.info?._id).select('-password -createdAt -updatedAt');
-
-            if (user?._id && (user?.email === decode?.info?.email)) {
+            let user = await UserModel.findById(decode?.userId).select('-password -createdAt -updatedAt');
+            console.log(user)
+            console.log(decode)
+            if (user?._id && (user?.email === decode?.email)) {
                 req.user = {
                     userId: user?._id,
                     name: user?.name,

@@ -19,7 +19,7 @@ utilities.verifyPassword = async (password, hash) => {
 // @desc generate token
 utilities.generateAccessToken = (info, expireIn) => {
     return jwt.sign(
-        {info}
+        info
         , '12345', {expiresIn: expireIn})
 }
 

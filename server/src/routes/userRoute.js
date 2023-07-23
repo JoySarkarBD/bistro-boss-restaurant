@@ -1,6 +1,7 @@
 // External imports
 const router = require('express').Router();
 
+
 // Internal imports
 const {
     registerUser,
@@ -18,6 +19,7 @@ const {
     resetPasswordFieldValidation
 } = require("../middlewares/authValidateMiddleware");
 const authVerifyMiddleWare = require("../middlewares/authVerifyMiddleWare");
+const {refreshToken} = require("../middlewares/refreshToken");
 
 // register
 router.post('/users/register', registrationFieldValidate, validateErrorResult, registerUser);
@@ -38,7 +40,12 @@ router.post('/users/create-otp', otpFieldValidation, validateErrorResult, create
 router.put('/users/verify-otp', otpCodeFieldValidation, validateErrorResult, verifyOtp)
 
 // reset password
-router.put('/users/reset-password', resetPasswordFieldValidation, validateErrorResult, resetPassword)
+router.put('/users/reset-password', resetPasswordFieldValidation, validateErrorResult, resetPassword);
+
+
+
+// refresh token
+router.get('/users/refresh-token', refreshToken)
 
 // module exports
 module.exports = router;

@@ -98,7 +98,7 @@ const verifyEmail = async (req, res) => {
             // generate && set cookie & define cookie expire time
             const cookieExpireTime = 30 * 24 * 60 * 60 * 1000;
 
-            generateCookies(res, user, cookieExpireTime, '30d')
+            generateCookies(res, {userId: user?._id, email: user?.email}, cookieExpireTime, '30d')
 
             const userInfo = {
                 userId: user?._id,
@@ -112,7 +112,7 @@ const verifyEmail = async (req, res) => {
             res.status(200).json({
                 msg: 'success',
                 data: {
-                    accessToken: generateAccessToken(user, '1d'),
+                    accessToken: generateAccessToken({userId: user?._id, email: user?.email}, '10s'),
                     userInfo,
                     roles: Object.values(user?.roles)?.filter(Boolean),
                 }
@@ -158,8 +158,8 @@ const updateUser = async (req, res) => {
             }
         } else {
             res.status(401).json({
-                statusCode: 401,
-                msg: 'Unauthorized user'
+                statusCode: 403,
+                msg: 'User is not verified'
             })
         }
 
@@ -187,7 +187,7 @@ const loginUser = async (req, res) => {
             //     generate cookie['refresh-token'] && access-token
             const cookieExpireTime = 30 * 24 * 60 * 60 * 1000;
 
-            generateCookies(res, user, cookieExpireTime, '30d');
+            generateCookies(res, {userId: user?._id, email: user?.email}, cookieExpireTime, '30d');
             // send success response
             const userInfo = {
                 userId: user?._id,
@@ -200,7 +200,7 @@ const loginUser = async (req, res) => {
             res.status(200).json({
                 msg: 'success',
                 data: {
-                    accessToken: generateAccessToken(user, '1d'),
+                    accessToken: generateAccessToken({userId: user?._id, email: user?.email}, '10s'),
                     userInfo,
                     roles: Object.values(user.roles)?.filter(Boolean)
                 }

@@ -15,6 +15,8 @@ import UpdateProfile from "../../pages/UpdateProfile/UpdateProfile";
 import VerifyOTP from "../../pages/VerifyOTP/VerifyOTP";
 import VerifyUser from "../../pages/VerifyUser/VerifyUser";
 import ErrorPage from "../../ui/ErrorPage";
+import PersistLoginUser from "../PersistLoginUser/PersistLoginUser";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import PublicRoute from "../PublicRoute/PublicRoute";
 import TermsAndCondition from "../TermsAndCondition/TermsAndCondition";
 
@@ -88,13 +90,23 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "dashboard/",
-    element: <DashboardLayout />,
-    errorElement: <ErrorPage />,
+    element: <PersistLoginUser />,
     children: [
       {
-        path: "ecommerce",
-        element: <Product />,
+        element: <PrivateRoute />,
+        children: [
+          {
+            path: "dashboard/",
+            element: <DashboardLayout />,
+            errorElement: <ErrorPage />,
+            children: [
+              {
+                path: "ecommerce",
+                element: <Product />,
+              },
+            ],
+          },
+        ],
       },
     ],
   },
