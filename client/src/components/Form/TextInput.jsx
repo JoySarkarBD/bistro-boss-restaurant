@@ -5,7 +5,7 @@ const TextInput = ({ title, ...attributes }) => {
       <div className='my-2'>
         <label
           htmlFor='email'
-          className='block leading-7 text-sm text-gray-600 mb-2'>
+          className='block capitalize leading-7 text-sm  mb-2'>
           {title}
         </label>
         <input

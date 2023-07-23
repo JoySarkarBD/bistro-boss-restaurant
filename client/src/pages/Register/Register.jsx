@@ -55,7 +55,7 @@ const Register = () => {
     <>
       <Toaster />
       <PageTitle title='Sign Up' />
-      <section className='text-gray-600 body-font relative h-screen bg-authBg'>
+      <section className='text-gray-600 body-font relative h-screen bg-authBg flex items-center'>
         <div className='container px-5 py-16 mx-auto'>
           <div className='flex flex-col text-center w-full mb-5'>
             <h2 className='text-4xl text-black font-semibold title-font'>
@@ -143,7 +143,7 @@ const Register = () => {
                 bristo_boss_restaurant@email.com
               </a>
               <p className='leading-normal my-3'>
-                Copyright © 2023 - All right reserved by Dip
+                Copyright © 2023 - All right reserved by bristo_boss_restaurant
               </p>
               <span className='inline-flex'>
                 <a className='text-gray-500 cursor-pointer'>

@@ -132,7 +132,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               {/* <!-- User Profile --> */}
               <li>
                 <NavLink
-                  to='/dashboard/update-profile'
+                  to='/dashboard/profile'
                   className={`sidebar-menu-item ${
                     pathname.includes("userHome") &&
                     "bg-slate-300 dark:bg-meta-4"
