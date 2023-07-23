@@ -1,16 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegUser } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import { SlLogout } from "react-icons/sl";
 import { Link } from "react-router-dom";
 
-import { useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { useLogoutQuery } from "../../../Features/auth/authApiSlice";
+import { logout } from "../../../Features/auth/authSlice";
 import userOne from "./../../../assets/user.png";
 
 const DropdownUser = () => {
+  const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
-
   const { userInfo } = auth;
+
+  const [isLogOut, setIsLogOut] = useState(false);
+  const { data, status, isLoading, isError } = useLogoutQuery(undefined, {
+    skip: !isLogOut,
+  });
+
+  // show after logout
+  useEffect(() => {
+    if (!isLoading && !isError) {
+      if (status === "fulfilled") {
+        setIsLogOut(false);
+        toast.success("Logout successfully");
+        dispatch(logout());
+      }
+    }
+  }, [data, isError, isLoading, status, dispatch]);
+
+  // @desc handle log out
+  const handleLogout = () => {
+    setIsLogOut(true);
+  };
 
   // Declare a state variable 'dropdownOpen' using the 'useState' hook
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -62,7 +86,7 @@ const DropdownUser = () => {
         <ul className='flex flex-col gap-5 border-b border-stroke px-6 py-7 dark:border-strokedark'>
           {/* Profile */}
           <li>
-            <Link to='/profile' className='dropdown-item'>
+            <Link to='/dashboard/profile' className='dropdown-item'>
               <FaRegUser className='w-5 h-5' />
               My Profile
             </Link>
@@ -78,7 +102,9 @@ const DropdownUser = () => {
         </ul>
 
         {/* Log out button */}
-        <button className='flex items-center gap-3  py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base'>
+        <button
+          className='flex items-center gap-3  py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base'
+          onClick={handleLogout}>
           <SlLogout className='w-5 h-5' />
           Log Out
         </button>

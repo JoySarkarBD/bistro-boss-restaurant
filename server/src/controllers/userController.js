@@ -73,9 +73,9 @@ const verifyEmail = async (req, res) => {
         // already verified email
         const isVerified = await UserModel.findById(req?.params?.userId);
         if (isVerified?._id && isVerified?.verified) {
-            return res.status(200).json({
+            return res.status(403).json({
                 msg: 'failed',
-                data: 'user already verified'
+                err: 'user already verified'
             });
         } else {
             // Find the user by email in the database and update the "isVerified" field
@@ -105,7 +105,9 @@ const verifyEmail = async (req, res) => {
                 name: user?.name || 'anonymous',
                 email: user?.email,
                 verified: user?.verified,
-                address: user?.address || false,
+                address: user?.address || null,
+                avatar: user?.avatar || null,
+                phone: user?.phone || null,
 
             }
             // send success response
@@ -121,8 +123,8 @@ const verifyEmail = async (req, res) => {
 
     } catch (error) {
         res.status(400).json({
-            status: 'failed',
-            data: error.message
+            msg: 'failed',
+            err: error.message
         });
     }
 };
@@ -194,7 +196,9 @@ const loginUser = async (req, res) => {
                 name: user?.name || 'anonymous',
                 email: user?.email,
                 verified: user?.verified,
-                address: user?.address || false,
+                address: user?.address || null,
+                avatar: user?.avatar || null,
+                phone: user?.phone || null
             }
 
             res.status(200).json({
@@ -351,6 +355,69 @@ const resetPassword = async (req, res, next) => {
     }
 }
 
+
+// // @desc    account verification link
+// // @route   POST /api/v1/users/verification-link
+// // @access  public
+const accountVerificationLink = async (req, res, next) => {
+    try {
+        const id = req.params.userId;
+
+        //    find user
+        const user = await UserModel.findById(id).select('-updatedAt -createdAt -password')
+        if (user?._id && user?.email) {
+
+            let emailText = `
+              <div style="text-align: center; padding: 20px;">
+                <h2>Email Verification</h2>
+                <p>Thank you for registering. Please click the button below to verify your email address:</p>
+                <a href=${process.env.FRONTEND_URL}/verifyUser/${id} style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px;">Verify Email</a>
+                <p>If you did not create an account, you can safely ignore this email.</p>
+              </div>
+            
+            `
+            // mail info
+            const mailInfo = {receivers: [user?.email], emailSubject: `Verify Email`, emailText}
+
+            //     send mail for verification
+            const mailResult = await sendEmail(mailInfo);
+
+
+            // check mail successfully sent or not
+            if (mailResult?.messageId) {
+                res.status(200).json({
+                    msg: 'success',
+                    data: `A mail was sent to your ${user?.email}. Please verify`
+                })
+            } else {
+                return next(createError(403, 'Email could not sent this time'))
+            }
+
+        } else {
+            next(createError(401, 'Unauthorized user'))
+        }
+
+
+    } catch (e) {
+        next(createError(404, e.message))
+    }
+}
+
+
+// // @desc    logout
+// // @route   get /api/v1/users/logout
+// // @access  public
+const handleLogout = async (req, res, next) => {
+    try {
+        const cookies = req.cookies;
+        if (!cookies?.refreshToken) return res.sendStatus(204)
+        res.clearCookie('refreshToken', {httpOnly: true, sameSite: 'strict', secure: true})
+        return res.sendStatus(204)
+    } catch (e) {
+        next(createError(404, e.message))
+    }
+}
+
 // module exports
 module.exports = {
     registerUser,
@@ -359,5 +426,7 @@ module.exports = {
     loginUser,
     createOtp,
     verifyOtp,
-    resetPassword
+    resetPassword,
+    accountVerificationLink,
+    handleLogout
 }

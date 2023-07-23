@@ -1,3 +1,4 @@
+import { Toaster } from "react-hot-toast";
 import { Outlet, useLocation } from "react-router-dom";
 import Footer from "../components/Shared/Footer/Footer";
 import Nav from "../components/Shared/Navbar/Nav";
@@ -17,7 +18,9 @@ const Main = () => {
       className='h-screen bg-Hero bg-cover
     font-[Poppins] md:bg-top bg-center'>
       {noHeaderFooter || <Nav />}
+      <Toaster />
       <Outlet />
+
       {noHeaderFooter || <Footer />}
     </div>
   );

@@ -1,16 +1,50 @@
 import { nanoid } from "@reduxjs/toolkit";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import {
+  useAccountVerificationLinkMutation,
+  useLogoutQuery,
+} from "../../../Features/auth/authApiSlice";
+import { logout } from "../../../Features/auth/authSlice";
 import user from "../../../assets/userImg.png";
 import "./Nav.css";
 
 const DropLink = () => {
+  const [isLogOut, setIsLogOut] = useState(false);
+  const dispatch = useDispatch();
+
+  const { data, status, isLoading, isError } = useLogoutQuery(undefined, {
+    skip: !isLogOut,
+  });
+
+  const [accountVerificationLink] = useAccountVerificationLinkMutation();
   const auth = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
   const imgRef = useRef();
-  // const Menus = ["Profile", "Dashboard", "Sign Up", "Login", "Logout"];
+
+  // @desc verify user after login
+  const sendVerifyLink = async () => {
+    try {
+      const userId = auth.userInfo.userId;
+      const response = await accountVerificationLink({ userId }).unwrap();
+      if (response.msg === "success") {
+        toast.success(response?.data, { duration: 3000 });
+      } else {
+        toast.error("Something is wrong , please try again later", {
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      const errorStatus = [401, 404, 500];
+      if (errorStatus.includes(error.status)) {
+        toast.error(error.data.err, { duration: 2000 });
+      }
+    }
+  };
+
   const Menus = [
     {
       name: "Profile",
@@ -32,11 +66,6 @@ const DropLink = () => {
       link: "/login",
       isAuth: false,
     },
-    {
-      name: "Sign Out",
-      link: "/logout",
-      isAuth: true,
-    },
   ];
 
   useEffect(() => {
@@ -46,6 +75,21 @@ const DropLink = () => {
       }
     });
   }, []);
+
+  // show after logout
+  useEffect(() => {
+    if (!isLoading && !isError) {
+      if (status === "fulfilled") {
+        toast.success("Logout successfully");
+        dispatch(logout());
+      }
+    }
+  }, [data, isError, isLoading, status, dispatch]);
+
+  // @desc handle log out
+  const handleLogout = () => {
+    setIsLogOut(true);
+  };
 
   return (
     <div className='relative'>
@@ -81,9 +125,18 @@ const DropLink = () => {
               );
             })}
 
-            {auth?.loggedIn && !auth.userInfo.verified && (
-              <li className='p-2 text-white text-base font-semibold cursor-pointer rounded-lg hover:bg-indigo-700'>
+            {auth?.loggedIn && !auth?.userInfo?.verified && (
+              <li
+                className='p-2 text-white text-base font-semibold cursor-pointer rounded-lg hover:bg-indigo-700'
+                onClick={sendVerifyLink}>
                 Verify
+              </li>
+            )}
+            {auth?.loggedIn && (
+              <li
+                className='p-2 text-white text-base font-semibold cursor-pointer rounded-lg hover:bg-indigo-700'
+                onClick={handleLogout}>
+                Logout
               </li>
             )}
           </ul>

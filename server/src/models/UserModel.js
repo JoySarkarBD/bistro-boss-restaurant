@@ -41,6 +41,11 @@ const userSchema = new mongoose.Schema({
         },
         admin: Number
     },
+
+    avatar: {
+        type: String,
+    },
+
     verified: {
         type: Boolean,
         default: false

@@ -33,6 +33,7 @@ const PersistLoginUser = () => {
           roles,
           accessToken,
           userInfo,
+          loggedIn: true,
         })
       );
     }

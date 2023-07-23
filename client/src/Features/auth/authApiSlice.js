@@ -47,6 +47,26 @@ export const authApiSlice = authAPi.injectEndpoints({
         url: "/refresh-token",
       }),
     }),
+
+    accountVerificationLink: builder.mutation({
+      query: (data) => ({
+        url: `/verification-link/${data.userId}`,
+        method: "POST",
+      }),
+    }),
+
+    verifyUser: builder.mutation({
+      query: (data) => ({
+        url: `/verify-email/${data.userId}`,
+        method: "PUT",
+      }),
+    }),
+
+    logout: builder.query({
+      query: () => ({
+        url: "/logout",
+      }),
+    }),
   }),
 });
 
@@ -57,4 +77,7 @@ export const {
   useVerifyOtpMutation,
   useResetPasswordMutation,
   useRefreshTokenQuery,
+  useVerifyUserMutation,
+  useAccountVerificationLinkMutation,
+  useLogoutQuery,
 } = authApiSlice;

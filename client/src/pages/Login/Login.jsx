@@ -50,6 +50,7 @@ const Login = () => {
         const { email, password } = values;
         const userData = await login({ email, password }).unwrap();
         if (userData?.msg === "success" && userData?.data?.accessToken) {
+          // set user information into local storage
           localStorage.setItem(
             "userInfo",
             JSON.stringify(userData?.data?.userInfo)
@@ -64,8 +65,12 @@ const Login = () => {
               accessToken: userData?.data?.accessToken,
               roles: userData?.data?.roles,
               userInfo: userData?.data?.userInfo,
+              loggedIn: true,
             })
           );
+          toast.success("Login success", {
+            duration: 2000,
+          });
         } else {
           toast.error("Something wrong , please try again later", {
             duration: 2000,
@@ -85,10 +90,10 @@ const Login = () => {
 
   // @desc navigate to homepage if users all stuff is good
   useEffect(() => {
-    if (!isLoading && auth.accessToken) {
+    if (!isLoading && auth?.accessToken) {
       navigate("/");
     }
-  }, [isLoading, auth.accessToken, navigate]);
+  }, [isLoading, auth?.accessToken, navigate]);
 
   return (
     <>

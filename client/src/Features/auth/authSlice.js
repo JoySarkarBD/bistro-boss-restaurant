@@ -5,7 +5,7 @@ const initialState = {
   roles: null,
   accessToken: null,
   userInfo: JSON.parse(localStorage.getItem("userInfo")) || null,
-  loggedIn: localStorage.getItem("loggedIn") || false,
+  loggedIn: JSON.parse(localStorage.getItem("loggedIn")) || false,
 };
 
 // auth slice
@@ -14,17 +14,17 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action) => {
-      const { accessToken, roles, userInfo } = action.payload;
+      const { accessToken, roles, userInfo, loggedIn } = action.payload;
       (state.accessToken = accessToken), (state.roles = roles);
       state.userInfo = userInfo;
-      state.loggedIn = true;
+      state.loggedIn = loggedIn;
     },
 
     logout: (state) => {
-      (state.accessToken = null), (state.roles = null), (state.userInfo = null);
-      state.loggedIn = true;
       localStorage.removeItem("userInfo");
       localStorage.setItem("loggedIn", false);
+      (state.accessToken = null), (state.roles = null), (state.userInfo = null);
+      state.loggedIn = false;
     },
   },
 });

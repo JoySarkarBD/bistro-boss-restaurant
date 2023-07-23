@@ -27,7 +27,9 @@ const refreshToken = (req, res, next) => {
                 name: user?.name || 'anonymous',
                 email: user?.email,
                 verified: user?.verified,
-                address: user?.address || false,
+                address: user?.address || null,
+                avatar:user?.avatar || null,
+                phone:user?.phone || null
 
             }
 

@@ -190,5 +190,6 @@ module.exports = {
     loginFieldValidation,
     otpFieldValidation,
     otpCodeFieldValidation,
-    resetPasswordFieldValidation
+    resetPasswordFieldValidation,
+
 }

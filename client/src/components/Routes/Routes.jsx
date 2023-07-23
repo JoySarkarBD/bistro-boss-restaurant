@@ -102,17 +102,17 @@ const router = createBrowserRouter([
                 path: "ecommerce",
                 element: <Product />,
               },
+              {
+                path: "profile",
+                element: <Profile />,
+              },
+              {
+                path: "profile/update-profile",
+                element: <UpdateProfile />,
+              },
             ],
           },
         ],
-      },
-      {
-        path: "profile",
-        element: <Profile />,
-      },
-      {
-        path: "profile/update-profile",
-        element: <UpdateProfile />,
       },
     ],
   },

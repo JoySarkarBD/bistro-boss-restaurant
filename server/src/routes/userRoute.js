@@ -10,12 +10,20 @@ const {
     loginUser,
     createOtp,
     verifyOtp,
-    resetPassword
+    resetPassword,
+    accountVerificationLink,
+    handleLogout
 } = require('../controllers/userController');
-const {
 
+
+// all type of field validation
+const {
     validateErrorResult,
-    loginFieldValidation, registrationFieldValidate, updateFieldValidate, otpFieldValidation, otpCodeFieldValidation,
+    loginFieldValidation,
+    registrationFieldValidate,
+    updateFieldValidate,
+    otpFieldValidation,
+    otpCodeFieldValidation,
     resetPasswordFieldValidation
 } = require("../middlewares/authValidateMiddleware");
 const authVerifyMiddleWare = require("../middlewares/authVerifyMiddleWare");
@@ -30,6 +38,9 @@ router.put('/users/update-user/:userId', updateFieldValidate, validateErrorResul
 // verify user email
 router.put('/users/verify-email/:userId', verifyEmail)
 
+// account verification route
+router.post('/users/verification-link/:userId', accountVerificationLink)
+
 // login user
 router.post('/users/login', loginFieldValidation, validateErrorResult, loginUser)
 
@@ -43,9 +54,13 @@ router.put('/users/verify-otp', otpCodeFieldValidation, validateErrorResult, ver
 router.put('/users/reset-password', resetPasswordFieldValidation, validateErrorResult, resetPassword);
 
 
-
 // refresh token
 router.get('/users/refresh-token', refreshToken)
+
+
+//logout route
+router.get('/users/logout', handleLogout)
+
 
 // module exports
 module.exports = router;
