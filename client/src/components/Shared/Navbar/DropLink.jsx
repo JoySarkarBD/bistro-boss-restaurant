@@ -6,7 +6,7 @@ import user from "../../../assets/userImg.png";
 import "./Nav.css";
 
 const DropLink = () => {
-  const auth = useSelector(state => state.auth);
+  const auth = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
   const imgRef = useRef();
@@ -40,7 +40,7 @@ const DropLink = () => {
   ];
 
   useEffect(() => {
-    window.addEventListener("click", e => {
+    window.addEventListener("click", (e) => {
       if (e.target !== menuRef.current && e.target !== imgRef.current) {
         setOpen(false);
       }
@@ -61,15 +61,15 @@ const DropLink = () => {
         <div
           ref={menuRef}
           className={`md:bg-[#232D3A] w-52 md:p-4 sm:shadow-none  md:shadow-lg absolute sm:bg-transparent md:-right-1/3 lg:-right-8 xl:-right-8 top-[161%] rounded-lg sm:p-0  ${
-            !auth.accessToken ? "h-30" : "h-50"
+            !auth.loggedIn ? "h-30" : "h-50"
           } `}>
           <ul>
-            {Menus.filter(menu => {
-              if (!auth?.accessToken) {
+            {Menus.filter((menu) => {
+              if (!auth?.loggedIn) {
                 return !menu.isAuth;
               }
               return menu.isAuth;
-            }).map(m => {
+            }).map((m) => {
               return (
                 <NavLink to={m.link} key={nanoid()}>
                   <li
@@ -81,7 +81,7 @@ const DropLink = () => {
               );
             })}
 
-            {auth?.accessToken && !auth.userInfo.verified && (
+            {auth?.loggedIn && !auth.userInfo.verified && (
               <li className='p-2 text-white text-base font-semibold cursor-pointer rounded-lg hover:bg-indigo-700'>
                 Verify
               </li>

@@ -55,6 +55,9 @@ const Login = () => {
             JSON.stringify(userData?.data?.userInfo)
           );
 
+          // login track
+          localStorage.setItem("loggedIn", true);
+
           //dispatch action [store user stuff]
           dispatch(
             setCredentials({

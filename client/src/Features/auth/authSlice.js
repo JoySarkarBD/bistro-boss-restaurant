@@ -5,6 +5,7 @@ const initialState = {
   roles: null,
   accessToken: null,
   userInfo: JSON.parse(localStorage.getItem("userInfo")) || null,
+  loggedIn: localStorage.getItem("loggedIn") || false,
 };
 
 // auth slice
@@ -16,11 +17,14 @@ const authSlice = createSlice({
       const { accessToken, roles, userInfo } = action.payload;
       (state.accessToken = accessToken), (state.roles = roles);
       state.userInfo = userInfo;
+      state.loggedIn = true;
     },
 
     logout: (state) => {
       (state.accessToken = null), (state.roles = null), (state.userInfo = null);
+      state.loggedIn = true;
       localStorage.removeItem("userInfo");
+      localStorage.setItem("loggedIn", false);
     },
   },
 });
