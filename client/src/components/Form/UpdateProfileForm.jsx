@@ -40,14 +40,9 @@ const UserProfileForm = () => {
             <TextInput title='email' type='email' />
           </div>
 
-          {/* Password */}
-          <div className='col-span-6'>
-            <TextInput title='password' type='password' />
-          </div>
-
           {/* Mobile */}
           <div className='col-span-6'>
-            <TextInput title='number' type='number' />
+            <TextInput title='phone' type='text' />
           </div>
 
           {/* Address */}
@@ -56,7 +51,10 @@ const UserProfileForm = () => {
           </div>
 
           {/* Update Form Btn */}
-          <div className='col-span-12 text-end'>
+          <div className='col-span-12 text-end gap-2'>
+            <button className='bg-red-700 hover:bg-red-600 text-base text-white font-medium py-2 mt-4 w-1/3 rounded focus:outline-none focus:shadow-outline mx-auto spinner-button me-2'>
+              Cancel
+            </button>
             <button className='bg-indigo-500 hover:bg-indigo-600 text-base text-white font-medium py-2 mt-4 w-1/3 rounded focus:outline-none focus:shadow-outline mx-auto spinner-button'>
               Update
             </button>

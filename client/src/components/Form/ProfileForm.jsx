@@ -6,7 +6,7 @@ import TextInput from "./TextInput";
 
 // eslint-disable-next-line react/prop-types
 const ProfileForm = () => {
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector(state => state.auth);
   const { name, email, address, avatar, phone } = auth.userInfo;
 
   return (
@@ -29,7 +29,7 @@ const ProfileForm = () => {
               </div>
 
               <div>
-                <p className='text-[22px] font-medium'>Dip</p>
+                <p className='text-[22px] font-medium'>{name}</p>
                 <p className='text-[15px] font-normal'>Supper Admin</p>
               </div>
             </div>
@@ -69,7 +69,7 @@ const ProfileForm = () => {
           {/* Mobile */}
           <div className='col-span-6'>
             <TextInput
-              title='number'
+              title='phone'
               type='number'
               defaultValue={phone || ""}
               readOnly
