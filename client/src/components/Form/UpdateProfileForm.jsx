@@ -1,15 +1,35 @@
 /* eslint-disable react/prop-types */
+import { useFormik } from "formik";
 import { AiOutlineCamera } from "react-icons/ai";
+import { useSelector } from "react-redux";
 import TextInput from "./TextInput";
 
 // eslint-disable-next-line react/prop-types
 const UserProfileForm = () => {
+  const auth = useSelector((state) => state.auth);
+  const { email } = auth.userInfo;
+  const initialValues = {
+    name: "",
+    email,
+    password: "",
+    number: "",
+    address: "",
+    avatar: "",
+  };
+
+  const { values, setFieldValue, handleSubmit, handleChange } = useFormik({
+    initialValues,
+    onSubmit: async (values) => {
+      console.log(values);
+    },
+  });
+
   return (
     <div className='bg-white dark:bg-boxDark p-8 rounded-lg shadow-md col-span-2'>
       <h2 className='dark:border-gray-500 text-2xl border-[#dedede] border-b-2 py-3 font-semibold text-[#344767] dark:text-white mb-8'>
         Update Profile
       </h2>
-      <form encType='multipart/form-data'>
+      <form encType='multipart/form-data' onSubmit={handleSubmit}>
         <div className='grid grid-cols-12 gap-x-4'>
           {/* Upload Image  */}
           <div className='col-span-12 mb-4'>
@@ -32,27 +52,43 @@ const UserProfileForm = () => {
 
           {/* Name  */}
           <div className='col-span-6'>
-            <TextInput title='name' type='text' />
+            <TextInput
+              title='name'
+              type='text'
+              value={values.name}
+              onChange={handleChange}
+            />
           </div>
 
           {/* Email */}
           <div className='col-span-6'>
-            <TextInput title='email' type='email' />
-          </div>
-
-          {/* Password */}
-          <div className='col-span-6'>
-            <TextInput title='password' type='password' />
+            <TextInput
+              title='email'
+              type='email'
+              defaultValue={email}
+              readOnly
+            />
           </div>
 
           {/* Mobile */}
           <div className='col-span-6'>
-            <TextInput title='number' type='number' />
+            <TextInput
+              title='number'
+              type='number'
+              value={values.number}
+              onChange={handleChange}
+            />
           </div>
 
           {/* Address */}
           <div className='col-span-6'>
-            <TextInput title='address' type='text' defaultValue='Sylhet' />
+            <TextInput
+              title='address'
+              type='text'
+              defaultValue='Sylhet'
+              value={values.address}
+              onChange={handleChange}
+            />
           </div>
 
           {/* Update Form Btn */}
