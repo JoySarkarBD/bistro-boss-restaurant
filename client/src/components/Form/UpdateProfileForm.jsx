@@ -62,22 +62,30 @@ const UserProfileForm = () => {
 
           {/* Email */}
           <div className='col-span-6'>
+<<<<<<< HEAD
             <TextInput
               title='email'
               type='email'
               defaultValue={email}
               readOnly
             />
+=======
+            <TextInput title='email' type='email' />
+>>>>>>> d9dd2e2caff4420dda8f3c954fc93c6a44183bdf
           </div>
 
           {/* Mobile */}
           <div className='col-span-6'>
+<<<<<<< HEAD
             <TextInput
               title='number'
               type='number'
               value={values.number}
               onChange={handleChange}
             />
+=======
+            <TextInput title='phone' type='text' />
+>>>>>>> d9dd2e2caff4420dda8f3c954fc93c6a44183bdf
           </div>
 
           {/* Address */}
@@ -92,7 +100,10 @@ const UserProfileForm = () => {
           </div>
 
           {/* Update Form Btn */}
-          <div className='col-span-12 text-end'>
+          <div className='col-span-12 text-end gap-2'>
+            <button className='bg-red-700 hover:bg-red-600 text-base text-white font-medium py-2 mt-4 w-1/3 rounded focus:outline-none focus:shadow-outline mx-auto spinner-button me-2'>
+              Cancel
+            </button>
             <button className='bg-indigo-500 hover:bg-indigo-600 text-base text-white font-medium py-2 mt-4 w-1/3 rounded focus:outline-none focus:shadow-outline mx-auto spinner-button'>
               Update
             </button>
