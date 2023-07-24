@@ -16,6 +16,7 @@ import Profile from "../../pages/Dashboard/Profile/Profile";
 import UpdateProfile from "../../pages/Dashboard/UpdateProfile/UpdateProfile";
 import VerifyOTP from "../../pages/VerifyOTP/VerifyOTP";
 import VerifyUser from "../../pages/VerifyUser/VerifyUser";
+// import DashboardLoader from "../../ui/DashboardLoader";
 import ErrorPage from "../../ui/ErrorPage";
 import PersistLoginUser from "../PersistLoginUser/PersistLoginUser";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
         path: "reset-password",
         element: <ResetPassword />,
       },
+      // {
+      //   path: "loader",
+      //   element: <DashboardLoader />,
+      // },
       {
         path: "verifyUser/:userId",
         element: <VerifyUser />,
