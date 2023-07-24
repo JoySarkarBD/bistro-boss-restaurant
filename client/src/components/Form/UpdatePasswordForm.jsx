@@ -4,7 +4,7 @@ const UpdatePasswordForm = () => {
   return (
     <div className='bg-white dark:bg-boxDark p-8 rounded-lg shadow-md col-span-2 my-10'>
       <h2 className='dark:border-gray-500 text-2xl border-[#dedede] border-b-2 py-3 font-semibold text-[#344767] dark:text-white mb-8'>
-        Profile Details
+        Update password
       </h2>
       <form encType='multipart/form-data'>
         <div className='grid grid-cols-12 gap-x-4'>

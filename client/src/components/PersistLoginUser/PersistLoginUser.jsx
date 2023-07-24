@@ -2,12 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useRefreshTokenQuery } from "../../Features/auth/authApiSlice";
 import { logout, setCredentials } from "../../Features/auth/authSlice";
 
 const PersistLoginUser = () => {
-  const navigate = useNavigate();
   const [userData, setUserData] = useState({});
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);

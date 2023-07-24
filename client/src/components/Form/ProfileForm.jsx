@@ -6,7 +6,7 @@ import TextInput from "./TextInput";
 
 // eslint-disable-next-line react/prop-types
 const ProfileForm = () => {
-  const auth = useSelector(state => state.auth);
+  const auth = useSelector((state) => state.auth);
   const { name, email, address, avatar, phone } = auth.userInfo;
 
   return (
@@ -56,15 +56,6 @@ const ProfileForm = () => {
               readOnly
             />
           </div>
-
-          {/* Password
-          <div className='col-span-6'>
-            <TextInput
-              title='password'
-              type='password'
-              defaultValue='1234567'
-            />
-          </div> */}
 
           {/* Mobile */}
           <div className='col-span-6'>
