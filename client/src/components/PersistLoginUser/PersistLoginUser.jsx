@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { useRefreshTokenQuery } from "../../Features/auth/authApiSlice";
 import { logout, setCredentials } from "../../Features/auth/authSlice";
+import DashboardLoader from "../../ui/DashboardLoader";
 
 const PersistLoginUser = () => {
   const [userData, setUserData] = useState({});
@@ -47,7 +48,7 @@ const PersistLoginUser = () => {
 
   return (
     <>
-      {!auth?.accessToken && auth?.userInfo?.email ? "Loading..." : <Outlet />}
+      {!auth?.accessToken && auth?.userInfo?.email ? <DashboardLoader/> : <Outlet />}
     </>
   );
 };

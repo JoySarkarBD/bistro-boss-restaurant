@@ -85,6 +85,7 @@ const UserProfileForm = () => {
 
           {/* Email */}
           <div className='col-span-6'>
+<<<<<<< HEAD
             <TextInput
               title='email'
               type='email'
@@ -92,10 +93,14 @@ const UserProfileForm = () => {
               defaultValue={values.email}
               readOnly
             />
+=======
+            <TextInput title='email' type='email' />
+>>>>>>> b85c20d1b5058e0ca3d5f50bf1419b4c1f89d92f
           </div>
 
           {/* Mobile */}
           <div className='col-span-6'>
+<<<<<<< HEAD
             <TextInput
               title='phone'
               type='number'
@@ -103,6 +108,9 @@ const UserProfileForm = () => {
               value={values.phone}
               onChange={handleChange}
             />
+=======
+            <TextInput title='phone' type='text' />
+>>>>>>> b85c20d1b5058e0ca3d5f50bf1419b4c1f89d92f
           </div>
 
           {/* Address */}

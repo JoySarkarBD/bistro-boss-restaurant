@@ -13,6 +13,7 @@ const Main = () => {
     location.pathname.includes("/reset-password") ||
     location.pathname.includes("/verify-otp") ||
     location.pathname.includes("/update-profile");
+    location.pathname.includes("/loader");
   return (
     <div
       className='h-screen bg-Hero bg-cover
