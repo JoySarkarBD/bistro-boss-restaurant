@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 
 const PersonalDetails = () => {
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector(state => state.auth);
   const { roles } = auth;
   const { name, email, phone, address } = auth.userInfo;
 
@@ -46,10 +46,10 @@ const PersonalDetails = () => {
 
               {/* Email */}
               <tr>
-                <td className='text-gray-500 text-[17px] font-medium py-3'>
+                <td className='text-gray-500 text-[17px]  font-medium py-3'>
                   Email
                 </td>
-                <td className='text-black dark:text-white  text-[17px] font-medium ps-12'>
+                <td className='text-black dark:text-white break-all  text-[17px]  font-medium ps-12 '>
                   {email}
                 </td>
               </tr>

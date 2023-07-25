@@ -2,10 +2,18 @@ import { useState } from "react";
 import { AiFillHome, AiFillShopping } from "react-icons/ai";
 import { BiMenuAltRight, BiUserPlus } from "react-icons/bi";
 import { BsBuildingFillAdd, BsFillCartFill } from "react-icons/bs";
+import { FaUsersCog } from "react-icons/fa";
 import { FiChevronRight } from "react-icons/fi";
 import { GoChevronDown } from "react-icons/go";
-import { MdEmail, MdPayment, MdReviews } from "react-icons/md";
-import { RxDashboard } from "react-icons/rx";
+import {
+  MdEmail,
+  MdOutlineCategory,
+  MdOutlineFastfood,
+  MdPayment,
+  MdReviews,
+} from "react-icons/md";
+import { SiBookstack } from "react-icons/si";
+// import { RxDashboard } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
 import logoDark from "./../../../assets/logo-dark.png";
@@ -17,12 +25,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
   const { pathname } = location;
   const [isOpen, setOpen] = useState(false);
-  const { theme } = useSelector((state) => state.utility);
+  const { theme } = useSelector(state => state.utility);
 
   return (
     <aside
       className={`absolute left-0 top-0 z-10 flex h-screen w-72 flex-col overflow-y-hidden 
-      
+      bg-white
       dark:bg-boxDark shadow-lg duration-300 ease-linear  lg:static lg:translate-x-0 ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}>
@@ -68,7 +76,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           <div>
             <ul className='mb-6 flex flex-col gap-1.5'>
               {/* <!-- Dashboard submenu --> */}
-              <li>
+              {/* <li>
                 <a
                   onClick={() => setOpen(!isOpen)}
                   className='cursor-pointer sidebar-menu-item'>
@@ -85,7 +93,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   </span>
                 </a>
 
-                {/* submenu item*/}
+              submenu item
                 <ul
                   className={`overflow-hidden transition-height duration-300 ease-in-out ${
                     isOpen ? "h-24" : "h-0"
@@ -111,8 +119,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     </NavLink>
                   </li>
                 </ul>
-                {/* submenu items*/}
-              </li>
+                submenu items
+              </li> */}
               {/* <!-- Dashboard submenu --> */}
 
               {/* <!-- User Home --> */}
@@ -124,7 +132,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     "bg-slate-300 dark:bg-meta-4"
                   }`}>
                   <AiFillHome className='w-5 h-5' />
-                  User Home
+                  Home
                 </NavLink>
               </li>
               {/* <!-- User Home --> */}
@@ -142,6 +150,130 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 </NavLink>
               </li>
               {/* <!-- User Profile --> */}
+
+              {/* <!-- Category submenu --> */}
+              <li>
+                <a
+                  onClick={() => setOpen(!isOpen)}
+                  className='cursor-pointer sidebar-menu-item'>
+                  <span>
+                    <MdOutlineCategory className='w-5 h-5' />
+                  </span>
+                  <span>Category</span>
+                  <span className='ml-auto'>
+                    {isOpen ? (
+                      <GoChevronDown className='w-4 h-4' />
+                    ) : (
+                      <FiChevronRight className='w-4 h-4' />
+                    )}
+                  </span>
+                </a>
+
+                {/* submenu item */}
+                <ul
+                  className={`overflow-hidden transition-height duration-300 ease-in-out ${
+                    isOpen ? "h-24" : "h-0"
+                  }`}>
+                  <li className='mb-2'>
+                    <NavLink
+                      to='/add-category'
+                      className={`sidebar-submenu-item ${
+                        pathname.includes("add-category") &&
+                        "bg-slate-300 dark:bg-meta-4"
+                      }`}>
+                      Add Category
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/manage-category'
+                      className={`sidebar-submenu-item ${
+                        pathname.includes("manage-category") &&
+                        "bg-slate-300 dark:bg-meta-4"
+                      }`}>
+                      Manage Category
+                    </NavLink>
+                  </li>
+                </ul>
+                {/* submenu items */}
+              </li>
+              {/* <!-- Category submenu --> */}
+
+              {/* <!-- Item submenu --> */}
+              <li>
+                <a
+                  onClick={() => setOpen(!isOpen)}
+                  className='cursor-pointer sidebar-menu-item'>
+                  <span>
+                    <MdOutlineFastfood className='w-5 h-5' />
+                  </span>
+                  <span>Menu</span>
+                  <span className='ml-auto'>
+                    {isOpen ? (
+                      <GoChevronDown className='w-4 h-4' />
+                    ) : (
+                      <FiChevronRight className='w-4 h-4' />
+                    )}
+                  </span>
+                </a>
+
+                {/* submenu item */}
+                <ul
+                  className={`overflow-hidden transition-height duration-300 ease-in-out ${
+                    isOpen ? "h-24" : "h-0"
+                  }`}>
+                  <li className='mb-2'>
+                    <NavLink
+                      to='/add-menu'
+                      className={`sidebar-submenu-item ${
+                        pathname.includes("add-menu") &&
+                        "bg-slate-300 dark:bg-meta-4"
+                      }`}>
+                      Add Menu
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/manage-menu'
+                      className={`sidebar-submenu-item ${
+                        pathname.includes("manage-menu") &&
+                        "bg-slate-300 dark:bg-meta-4"
+                      }`}>
+                      Manage Menu
+                    </NavLink>
+                  </li>
+                </ul>
+                {/* submenu items */}
+              </li>
+              {/* <!-- Item submenu --> */}
+
+              {/* <!-- manage booking --> */}
+              <li>
+                <NavLink
+                  to='/dashboard/manage-booking'
+                  className={`sidebar-menu-item ${
+                    pathname.includes("manage-booking") &&
+                    "bg-slate-300 dark:bg-meta-4"
+                  }`}>
+                  <SiBookstack className='w-5 h-5' />
+                  Booking Manage
+                </NavLink>
+              </li>
+              {/* <!-- manage booking  --> */}
+
+              {/* <!-- manage all users --> */}
+              <li>
+                <NavLink
+                  to='/dashboard/manage-all-users'
+                  className={`sidebar-menu-item ${
+                    pathname.includes("manage-all-users") &&
+                    "bg-slate-300 dark:bg-meta-4"
+                  }`}>
+                  <FaUsersCog className='w-5 h-5' />
+                  Manage All Users
+                </NavLink>
+              </li>
+              {/* <!-- manage all users   --> */}
 
               {/* <!-- Payment History --> */}
               <li>

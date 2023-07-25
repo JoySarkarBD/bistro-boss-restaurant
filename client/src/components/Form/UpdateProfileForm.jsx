@@ -8,7 +8,7 @@ import TextInput from "./TextInput";
 
 // eslint-disable-next-line react/prop-types
 const UserProfileForm = () => {
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector(state => state.auth);
   const { email, name } = auth.userInfo;
   const { roles } = auth;
 
@@ -32,7 +32,7 @@ const UserProfileForm = () => {
   const { values, setFieldValue, handleSubmit, handleChange, errors } =
     useFormik({
       initialValues,
-      onSubmit: async (values) => {
+      onSubmit: async values => {
         console.log(values);
       },
     });
@@ -57,7 +57,7 @@ const UserProfileForm = () => {
                   hidden
                   id='image'
                   name='image'
-                  onChange={(e) => setFieldValue("image", e.target.files[0])}
+                  onChange={e => setFieldValue("image", e.target.files[0])}
                   type='file'
                 />
                 {values?.image && !errors.image && (
@@ -85,32 +85,12 @@ const UserProfileForm = () => {
 
           {/* Email */}
           <div className='col-span-6'>
-<<<<<<< HEAD
-            <TextInput
-              title='email'
-              type='email'
-              name='email'
-              defaultValue={values.email}
-              readOnly
-            />
-=======
             <TextInput title='email' type='email' />
->>>>>>> b85c20d1b5058e0ca3d5f50bf1419b4c1f89d92f
           </div>
 
           {/* Mobile */}
           <div className='col-span-6'>
-<<<<<<< HEAD
-            <TextInput
-              title='phone'
-              type='number'
-              name='phone'
-              value={values.phone}
-              onChange={handleChange}
-            />
-=======
             <TextInput title='phone' type='text' />
->>>>>>> b85c20d1b5058e0ca3d5f50bf1419b4c1f89d92f
           </div>
 
           {/* Address */}

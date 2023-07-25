@@ -6,7 +6,7 @@ import TextInput from "./TextInput";
 
 // eslint-disable-next-line react/prop-types
 const ProfileForm = () => {
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector(state => state.auth);
   const { name, email, address, avatar, phone } = auth.userInfo;
 
   return (
@@ -38,6 +38,13 @@ const ProfileForm = () => {
             <Link to='update-profile'>
               <button className='bg-[#cbd5e1] border-none outline-none px-8 py-2 rounded-xl text-gray-800 font-medium'>
                 Edit Profile
+              </button>
+            </Link>
+
+            {/* Delete Profile Button */}
+            <Link to=''>
+              <button className='bg-red-700 border-none outline-none px-8 py-2 rounded-xl text-white font-medium ms-3'>
+                Delete Profile
               </button>
             </Link>
           </div>
