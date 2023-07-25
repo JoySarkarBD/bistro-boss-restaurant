@@ -17,6 +17,12 @@ import UpdateProfile from "../../pages/Dashboard/UpdateProfile/UpdateProfile";
 import VerifyOTP from "../../pages/VerifyOTP/VerifyOTP";
 import VerifyUser from "../../pages/VerifyUser/VerifyUser";
 // import DashboardLoader from "../../ui/DashboardLoader";
+import AddCategory from "../../pages/Dashboard/Category/AddCategory";
+import ManageCategory from "../../pages/Dashboard/Category/ManageCategory";
+import UpdateCategory from "../../pages/Dashboard/Category/UpdateCategory";
+import AddMenu from "../../pages/Dashboard/Menu/AddMenu";
+import ManageMenu from "../../pages/Dashboard/Menu/ManageMenu";
+import UpdateMenu from "../../pages/Dashboard/Menu/UpdateMenu";
 import ErrorPage from "../../ui/ErrorPage";
 import PersistLoginUser from "../PersistLoginUser/PersistLoginUser";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -114,6 +120,30 @@ const router = createBrowserRouter([
               {
                 path: "profile/update-profile",
                 element: <UpdateProfile />,
+              },
+              {
+                path: "add-category",
+                element: <AddCategory />,
+              },
+              {
+                path: "manage-category",
+                element: <ManageCategory />,
+              },
+              {
+                path: "manage-category/update-category",
+                element: <UpdateCategory />,
+              },
+              {
+                path: "add-menu",
+                element: <AddMenu />,
+              },
+              {
+                path: "manage-menu",
+                element: <ManageMenu />,
+              },
+              {
+                path: "manage-menu/update-menu",
+                element: <UpdateMenu />,
               },
             ],
           },

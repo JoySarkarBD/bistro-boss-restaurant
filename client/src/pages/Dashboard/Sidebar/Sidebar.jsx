@@ -12,8 +12,8 @@ import {
   MdPayment,
   MdReviews,
 } from "react-icons/md";
-import { SiBookstack } from "react-icons/si";
 // import { RxDashboard } from "react-icons/rx";
+import { SiBookstack } from "react-icons/si";
 import { useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
 import logoDark from "./../../../assets/logo-dark.png";
@@ -93,7 +93,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   </span>
                 </a>
 
-              submenu item
+                submenu item
                 <ul
                   className={`overflow-hidden transition-height duration-300 ease-in-out ${
                     isOpen ? "h-24" : "h-0"
@@ -176,7 +176,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   }`}>
                   <li className='mb-2'>
                     <NavLink
-                      to='/add-category'
+                      to='add-category'
                       className={`sidebar-submenu-item ${
                         pathname.includes("add-category") &&
                         "bg-slate-300 dark:bg-meta-4"
@@ -186,7 +186,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   </li>
                   <li>
                     <NavLink
-                      to='/manage-category'
+                      to='manage-category'
                       className={`sidebar-submenu-item ${
                         pathname.includes("manage-category") &&
                         "bg-slate-300 dark:bg-meta-4"
@@ -224,7 +224,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   }`}>
                   <li className='mb-2'>
                     <NavLink
-                      to='/add-menu'
+                      to='add-menu'
                       className={`sidebar-submenu-item ${
                         pathname.includes("add-menu") &&
                         "bg-slate-300 dark:bg-meta-4"
@@ -234,7 +234,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   </li>
                   <li>
                     <NavLink
-                      to='/manage-menu'
+                      to='manage-menu'
                       className={`sidebar-submenu-item ${
                         pathname.includes("manage-menu") &&
                         "bg-slate-300 dark:bg-meta-4"
