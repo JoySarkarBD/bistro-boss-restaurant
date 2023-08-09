@@ -12,7 +12,8 @@ const {
     verifyOtp,
     resetPassword,
     accountVerificationLink,
-    handleLogout
+    handleLogout,
+    updatePassword
 } = require('../controllers/userController');
 
 
@@ -24,7 +25,8 @@ const {
     updateFieldValidate,
     otpFieldValidation,
     otpCodeFieldValidation,
-    resetPasswordFieldValidation
+    resetPasswordFieldValidation,
+    updatePasswordFieldValidation
 } = require("../middlewares/authValidateMiddleware");
 const authVerifyMiddleWare = require("../middlewares/authVerifyMiddleWare");
 const {refreshToken} = require("../middlewares/refreshToken");
@@ -60,6 +62,9 @@ router.get('/users/refresh-token', refreshToken)
 
 //logout route
 router.get('/users/logout', handleLogout)
+
+// update password
+router.put('/users/update-password', updatePasswordFieldValidation, validateErrorResult, updatePassword)
 
 
 // module exports

@@ -418,6 +418,42 @@ const handleLogout = async (req, res, next) => {
     }
 }
 
+
+// // @desc    update password
+// // @route   put /api/v1/users/update-password
+// // @access  public
+const updatePassword = async (req, res, next) => {
+    try {
+        const {email, password, newPassword} = req.body
+        //     find and update the password
+        const user = await UserModel.findOne({email});
+
+
+        if (user?._id && await verifyPassword(password, user.password)) {
+
+            const updatedUser = await UserModel.findOneAndUpdate({email}, {$set: {password: await hashPassword(newPassword, 10)}}, {new: true})
+
+            if (updatedUser?._id) {
+                res.status(201).json({
+                    msg: 'success',
+                    data: "Password updated successfully"
+                })
+            } else {
+                next(createError(500, 'Internal server error, pleas try again'))
+            }
+
+        } else {
+            res.status(403).json({
+                msg: 'failed',
+                err: 'username or password does not matched'
+            })
+        }
+
+    } catch (e) {
+        next(404, e.message)
+    }
+}
+
 // module exports
 module.exports = {
     registerUser,
@@ -428,5 +464,6 @@ module.exports = {
     verifyOtp,
     resetPassword,
     accountVerificationLink,
-    handleLogout
+    handleLogout,
+    updatePassword
 }

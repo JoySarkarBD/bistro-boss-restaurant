@@ -18,12 +18,12 @@ const registrationFieldValidate = [
                 const existingUser = await UserModel.findOne({email: value});
 
                 if (existingUser) {
-                    throw  createError(409, 'This email already taken')
+                    throw createError(409, 'This email already taken')
                 } else {
                     return true
                 }
             } catch (e) {
-                throw  createError(e.message)
+                throw createError(e.message)
             }
         }),
 
@@ -183,6 +183,56 @@ const resetPasswordFieldValidation = [
 
 ]
 
+
+// update password validation
+const updatePasswordFieldValidation = [
+    check('email').trim().toLowerCase().notEmpty().withMessage('Email required').isEmail().withMessage('Invalid email address'),
+
+    check("password").trim()
+        .notEmpty()
+        .withMessage('Password required').custom((value) => {
+        if (value.length < 8) {
+            throw createError('Password length must 8 character long inclueded [Aa@.....]')
+        }
+        if (!/[A-Z]/.test(value)) {
+            throw createError('Password must be includes an uppercase')
+        }
+
+        if (!/[a-z]/.test(value)) {
+            throw createError('Password must be includes an lowercase')
+        }
+
+        if (!/[$@!%*?&]/.test(value)) {
+            throw createError('Password must have a special character')
+        } else {
+            return true
+
+        }
+    }),
+    check("newPassword").trim()
+        .notEmpty()
+        .withMessage('Password required').custom((value) => {
+        if (value.length < 8) {
+            throw createError('Password length must 8 character long inclueded [Aa@.....]')
+        }
+        if (!/[A-Z]/.test(value)) {
+            throw createError('Password must be includes an uppercase')
+        }
+
+        if (!/[a-z]/.test(value)) {
+            throw createError('Password must be includes an lowercase')
+        }
+
+        if (!/[$@!%*?&]/.test(value)) {
+            throw createError('Password must have a special character')
+        } else {
+            return true
+
+        }
+    })
+
+]
+
 module.exports = {
     validateErrorResult,
     registrationFieldValidate,
@@ -191,5 +241,6 @@ module.exports = {
     otpFieldValidation,
     otpCodeFieldValidation,
     resetPasswordFieldValidation,
+    updatePasswordFieldValidation
 
 }
