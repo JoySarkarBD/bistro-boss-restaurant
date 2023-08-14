@@ -6,8 +6,17 @@ import TextInput from "./TextInput";
 
 // eslint-disable-next-line react/prop-types
 const ProfileForm = () => {
-  const auth = useSelector(state => state.auth);
+  const auth = useSelector((state) => state.auth);
   const { name, email, address, avatar, phone } = auth.userInfo;
+  const { roles } = auth;
+  const profileImg = `http://localhost:5000/uploads/${auth?.userInfo?.userId}/avatar/${avatar}`;
+  // role
+  let role;
+  if (roles.length === 2 && roles.includes(440)) {
+    role = "Admin";
+  } else {
+    role = "Customer";
+  }
 
   return (
     <div className='bg-white dark:bg-boxDark p-8 rounded-lg shadow-md col-span-2'>
@@ -25,12 +34,12 @@ const ProfileForm = () => {
                   className='absolute cursor-pointer text-gray-400 right-1 left-1 text-center'></label>
                 <input hidden id='image' name='image' type='file' />
 
-                <img src={avatar || defaultAvatar} alt='Avatar' />
+                <img src={profileImg || defaultAvatar} alt='Avatar' />
               </div>
 
               <div>
                 <p className='text-[22px] font-medium'>{name}</p>
-                <p className='text-[15px] font-normal'>Supper Admin</p>
+                <p className='text-[15px] font-normal'>{role}</p>
               </div>
             </div>
 

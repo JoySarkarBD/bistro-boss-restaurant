@@ -57,6 +57,49 @@ export const resetPasswordSchema = Yup.object({
     .required("Confirm password is required"),
 });
 
+// update password
+export const updatePasswordSchema = Yup.object({
+  password: Yup.string()
+    .min(8)
+    .max(20)
+    .matches(passwordRules, {
+      message: `Min 8 char and include at least 1 letter, 1 number and 1 special character!`,
+    })
+    .required("Password required"),
+
+  newPassword: Yup.string()
+    .min(8)
+    .max(20)
+    .matches(passwordRules, {
+      message: `Min 8 char and include at least 1 letter, 1 number and 1 special character!`,
+    })
+    .required("New password required"),
+
+  confirmNewPassword: Yup.string()
+    .oneOf([Yup.ref("newPassword"), null], "Password don't match")
+    .required("Confirm new password is required"),
+});
+
+/* export const avatar = Yup.mixed().test(
+  "fileSize",
+  "File size should be less than 1 MB",
+  (value) => {
+    if (!value) return true;
+    return value.size <= 1024 * 1024; // 1 MB
+  }
+); */
+
+export const avatarSchema = Yup.object().shape({
+  avatar: Yup.mixed().test(
+    "fileSize",
+    "File size should be less than 1 MB",
+    (value) => {
+      if (!value) return true;
+      return value.size <= 1024 * 1024; // 1 MB
+    }
+  ),
+});
+
 /* image: Yup.mixed()
     .nullable()
     .required()

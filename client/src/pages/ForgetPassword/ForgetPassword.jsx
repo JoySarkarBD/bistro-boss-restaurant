@@ -27,11 +27,12 @@ const ForgetPassword = () => {
       email: "",
     },
     validationSchema: forgetPasswordSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
         const { email } = values;
         toast.success("OTP sending...", { duration: 3000 });
         const otpData = await otp({ email }).unwrap();
+        resetForm({ values: "" });
         if (otpData.status === "success" && otpData?.data?.email) {
           navigate("/verify-otp", { state: otpData });
         } else {

@@ -12,6 +12,8 @@ const {
     generateCookies,
     generateTime
 } = require("../helpers/utilitis");
+const fs = require('fs')
+const path = require('path')
 
 
 // @desc    Register a user
@@ -134,42 +136,17 @@ const verifyEmail = async (req, res) => {
 // @access  Private
 const updateUser = async (req, res) => {
     try {
-        const {name, address, password} = req?.body
+        const {name, phone, address} = req?.body
+        console.log(req?.body)
         const foundUser = await UserModel.findById(req.params?.userId)
-        if (foundUser?._id && foundUser.verified) {
-            // desc update user
-            const user = await UserModel.findByIdAndUpdate(req.params?.userId, {
-                $set: {
-                    name: name || foundUser.name,
-                    address: address || foundUser.address,
-                    password: (password && await hashPassword(password, 10)) || foundUser.password
-                }
-            }, {new: true, upsert: true}).select('-password -updatedAt -createdAt -roles -verified');
 
-            // desc send response
-            if (user?._id && user?.name) {
-                res.status(200).json({
-                    msg: 'success',
-                    data: user
-                });
-            } else {
-                res.status(200).json({
-                    msg: 'failed',
-                    data: 'user not updated, please try again later....'
-                });
-            }
-        } else {
-            res.status(401).json({
-                statusCode: 403,
-                msg: 'User is not verified'
-            })
-        }
+        // console.log(foundUser)
 
 
     } catch (e) {
-        res.status(200).json({
+        res.status(400).json({
             status: 'failed',
-            data: error?.message
+            data: e?.message
         });
     }
 }
@@ -204,7 +181,7 @@ const loginUser = async (req, res) => {
             res.status(200).json({
                 msg: 'success',
                 data: {
-                    accessToken: generateAccessToken({userId: user?._id, email: user?.email}, '10s'),
+                    accessToken: generateAccessToken({userId: user?._id, email: user?.email}, '30d'),
                     userInfo,
                     roles: Object.values(user.roles)?.filter(Boolean)
                 }

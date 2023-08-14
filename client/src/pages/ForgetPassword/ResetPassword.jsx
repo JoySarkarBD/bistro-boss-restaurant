@@ -39,10 +39,11 @@ const ResetPassword = () => {
       confirmPassword: "",
     },
     validationSchema: resetPasswordSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
         const { password } = values;
         const response = await resetPassword({ password, email }).unwrap();
+        resetForm({ values: "" });
         if (response.msg === "success") {
           navigate("/login", { state: { isSuccess: true } });
         } else {

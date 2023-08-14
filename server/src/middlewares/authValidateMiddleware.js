@@ -55,6 +55,18 @@ const validateErrorResult = (req, res, next) => {
 
 // update user validator
 const updateFieldValidate = [
+    // check('avatar').trim().custom((value) => {
+    //     if (!value) {
+    //         return true
+    //     } else {
+    //         if (typeof value !== "string") {
+    //             throw createError('Not a valid file')
+    //         } else {
+    //             return true
+    //         }
+    //     }
+    // }),
+
     check('name').trim().custom((value) => {
         if (!value.length) {
             return true
@@ -69,6 +81,9 @@ const updateFieldValidate = [
             }
         }
     }),
+
+    // check('email').notEmpty().withMessage('Email required').isEmail().withMessage('Invalid email'),
+
     check('address').trim().custom((value) => {
         if (!value.length) {
             return true
@@ -84,32 +99,20 @@ const updateFieldValidate = [
         }
     })
     ,
-    check('password').custom((value) => {
+    check('phone').trim().custom((value) => {
+
         if (!value.length) {
             return true
         } else {
-
-            if (value.length < 8) {
-                throw createError('Password length must 8 character long inclueded [Aa@.....]')
-            }
-            if (!/[A-Z]/.test(value)) {
-                throw createError('Password must be includes an uppercase')
-            }
-
-            if (!/[a-z]/.test(value)) {
-                throw createError('Password must be includes an lowercase')
-            }
-
-            if (!/[$@!%*?&]/.test(value)) {
-                throw createError('Password must have a special character')
+            if (value.length === 11 && !/^(?:\+?88)?01[15-9]\d{8}$/.test(value)) {
+                throw createError('Invalid Phone No')
             } else {
                 return true
-
             }
-
-
         }
     })
+
+
 
 ]
 

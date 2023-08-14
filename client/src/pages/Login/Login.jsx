@@ -19,6 +19,7 @@ const Login = () => {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const from = location?.state?.from?.pathname || "/";
 
   // @desc [if a user reset his password then this useEffect will fire]
   useEffect(() => {
@@ -45,10 +46,11 @@ const Login = () => {
   } = useFormik({
     initialValues,
     validationSchema: signinSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
         const { email, password } = values;
         const userData = await login({ email, password }).unwrap();
+        resetForm({ values: "" });
         if (userData?.msg === "success" && userData?.data?.accessToken) {
           // set user information into local storage
           localStorage.setItem(
@@ -83,6 +85,10 @@ const Login = () => {
         }
         if (errorStatus.includes(error.status)) {
           toast.error(error.data.err, { duration: 2000 });
+        } else {
+          toast.error(`Server currently down`, {
+            duration: 2000,
+          });
         }
       }
     },
@@ -91,9 +97,9 @@ const Login = () => {
   // @desc navigate to homepage if users all stuff is good
   useEffect(() => {
     if (!isLoading && auth?.accessToken) {
-      navigate("/");
+      navigate(from);
     }
-  }, [isLoading, auth?.accessToken, navigate]);
+  }, [isLoading, auth?.accessToken, navigate, from]);
 
   return (
     <>

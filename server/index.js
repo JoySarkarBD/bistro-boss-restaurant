@@ -6,9 +6,9 @@ dotenv.config();
 // Internal imports
 const app = require('./app');
 const connectDatabase = require('./src/db/server');
+const path = require("path");
 
 const port = process.env.PORT || 5000
-
 
 // App listen
 app.listen(port, () => {

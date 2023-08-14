@@ -32,10 +32,11 @@ const Register = () => {
   } = useFormik({
     initialValues,
     validationSchema: signupSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
         const { name, email, password } = values;
         const response = await registration({ name, email, password }).unwrap();
+        resetForm({ values: "" });
         if (response.msg === "success") {
           toast.success(response.data, { duration: 2000 });
         }

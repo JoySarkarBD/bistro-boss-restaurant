@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
     },
-    mobile: {
+    phone: {
         type: String,
         trim: true,
     },
@@ -43,7 +43,8 @@ const userSchema = new mongoose.Schema({
     },
 
     avatar: {
-        type: String,
+        publicId: String,
+        secureUrl: String
     },
 
     verified: {

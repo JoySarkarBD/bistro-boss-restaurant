@@ -67,6 +67,24 @@ export const authApiSlice = authAPi.injectEndpoints({
         url: "/logout",
       }),
     }),
+
+    updatePassword: builder.mutation({
+      query: (data) => ({
+        url: "/update-password",
+        method: "PUT",
+        body: data,
+      }),
+    }),
+
+    updateProfile: builder.mutation({
+      query: (updatedInfo) => {
+        return {
+          url: `/update-user/${updatedInfo?.userId}`,
+          method: "PUT",
+          body: updatedInfo?.data,
+        };
+      },
+    }),
   }),
 });
 
@@ -80,4 +98,6 @@ export const {
   useVerifyUserMutation,
   useAccountVerificationLinkMutation,
   useLogoutQuery,
+  useUpdatePasswordMutation,
+  useUpdateProfileMutation,
 } = authApiSlice;

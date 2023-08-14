@@ -7,10 +7,11 @@ const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_BACKEND_AUTH_BASE_URL,
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
+    headers.set("Access-Control-Allow-Origin", "*");
     const token = getState().auth.accessToken;
     // If we have a token set in state, let's assume that we should be passing it.
     if (token) {
-      headers.set("authorization", `Bearer ${token}`);
+      headers.set("authorization", `${token}`);
     }
 
     return headers;
@@ -25,6 +26,7 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
 
     const refreshResult = await baseQuery("/refresh-token", api, extraOptions);
     if (refreshResult?.data) {
+      console.log(refreshResult?.data);
       // store token and data
       api.dispatch(setCredentials({ ...refreshResult?.data }));
 

@@ -30,12 +30,14 @@ const {
 } = require("../middlewares/authValidateMiddleware");
 const authVerifyMiddleWare = require("../middlewares/authVerifyMiddleWare");
 const {refreshToken} = require("../middlewares/refreshToken");
+const fileUpload = require("../middlewares/fileUpload");
+
 
 // register
 router.post('/users/register', registrationFieldValidate, validateErrorResult, registerUser);
 
 // update user
-router.put('/users/update-user/:userId', updateFieldValidate, validateErrorResult, authVerifyMiddleWare, updateUser);
+router.put('/users/update-user/:userId',  updateFieldValidate, validateErrorResult, authVerifyMiddleWare, updateUser);
 
 // verify user email
 router.put('/users/verify-email/:userId', verifyEmail)

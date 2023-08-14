@@ -61,10 +61,11 @@ const VerifyOTP = () => {
       otp: "",
     },
     validationSchema: otpSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
         const { otp } = values;
         const response = await verifyOtp({ otp, email }).unwrap();
+        resetForm({ values: "" });
         if (response.status === "success" && response?.data.status) {
           navigate("/reset-password", {
             state: { email: response?.data.email },

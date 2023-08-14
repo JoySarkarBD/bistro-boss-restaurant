@@ -4,7 +4,8 @@ const UserModel = require("../models/UserModel");
 
 const authVerifyMiddleWare = (req, res, next) => {
 
-    const token = req.headers['authorization'] || req.headers['Authorization']
+    const accessToken = req.headers['authorization'] || req.headers['Authorization']
+    const token = accessToken.split(' ')[1]
 
     if (token) {
         jwt.verify(token, '12345', async (error, decode) => {
@@ -13,8 +14,7 @@ const authVerifyMiddleWare = (req, res, next) => {
             //     find user from database & check it with decoded data
 
             let user = await UserModel.findById(decode?.userId).select('-password -createdAt -updatedAt');
-            console.log(user)
-            console.log(decode)
+
             if (user?._id && (user?.email === decode?.email)) {
                 req.user = {
                     userId: user?._id,

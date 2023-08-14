@@ -1,39 +1,61 @@
 /* eslint-disable react/prop-types */
 import { useFormik } from "formik";
+import { useState } from "react";
 import { AiOutlineCamera } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useUpdateProfileMutation } from "../../Features/auth/authApiSlice";
 import PreviewImg from "../../ui/PreviewImg";
 import TextInput from "./TextInput";
 
 // eslint-disable-next-line react/prop-types
 const UserProfileForm = () => {
-  const auth = useSelector(state => state.auth);
-  const { email, name } = auth.userInfo;
+  const [updateProfile, { isLoading }] = useUpdateProfileMutation();
+  const [preview, setPreview] = useState(null);
+
+  const auth = useSelector((state) => state.auth);
+  const { email, name, phone, address } = auth.userInfo;
   const { roles } = auth;
 
   //  @desc set role
   let role;
-  if (roles.length === 2) {
+  if (roles.length === 2 && roles.includes(440)) {
     role = "Admin";
   } else {
     role = "Customer";
   }
 
   const initialValues = {
-    name: "",
+    name,
     email,
-    password: "",
-    phone: "",
-    address: "",
-    image: null,
+    phone,
+    address,
+    avatar: null,
   };
 
-  const { values, setFieldValue, handleSubmit, handleChange, errors } =
+  const { values, setFieldValue, handleSubmit, handleChange, errors, touched } =
     useFormik({
       initialValues,
-      onSubmit: async values => {
-        console.log(values);
+      // validationSchema: avatarSchema,
+      onSubmit: async (values, { setSubmitting }) => {
+        try {
+          // return console.log(preview);
+          const updatedData = {
+            data: {
+              ...values,
+              avatar: preview,
+            },
+            userId: auth?.userInfo?.userId,
+          };
+          // return console.log(JSON.stringify(updatedData.data));
+          // return console.log(updatedData);
+          const res = await updateProfile(updatedData).unwrap();
+          console.log(res);
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setSubmitting(false);
+        }
       },
     });
 
@@ -49,19 +71,24 @@ const UserProfileForm = () => {
             <div className='flex items-start gap-x-4'>
               <div className='relative w-28 h-28 overflow-hidden flex items-center border-2 mb-5 rounded-full'>
                 <label
-                  htmlFor='image'
+                  htmlFor='avatar'
                   className='absolute cursor-pointer text-gray-400 right-1 left-1 text-center'>
                   <AiOutlineCamera className='mx-auto text-2xl' />
                 </label>
                 <input
                   hidden
-                  id='image'
-                  name='image'
-                  onChange={e => setFieldValue("image", e.target.files[0])}
+                  id='avatar'
+                  name='avatar'
+                  onChange={(e) => setFieldValue("avatar", e.target.files[0])}
                   type='file'
                 />
-                {values?.image && !errors.image && (
-                  <PreviewImg file={values?.image} />
+                {values?.avatar && !errors.avatar && (
+                  <PreviewImg
+                    props={{ file: values.avatar, preview, setPreview }}
+                  />
+                )}
+                {touched.avatar && errors.avatar && (
+                  <p className='text-red-600 text-xs mt-1'>{errors.avatar}</p>
                 )}
               </div>
 
@@ -85,12 +112,23 @@ const UserProfileForm = () => {
 
           {/* Email */}
           <div className='col-span-6'>
-            <TextInput title='email' type='email' />
+            <TextInput
+              title='email'
+              type='email'
+              defaultValue={values.email}
+              readOnly
+            />
           </div>
 
           {/* Mobile */}
           <div className='col-span-6'>
-            <TextInput title='phone' type='text' />
+            <TextInput
+              title='phone'
+              type='text'
+              name='phone'
+              value={values.phone || ""}
+              onChange={handleChange}
+            />
           </div>
 
           {/* Address */}
@@ -99,7 +137,7 @@ const UserProfileForm = () => {
               title='address'
               type='text'
               name='address'
-              value={values.address}
+              value={values.address || ""}
               onChange={handleChange}
             />
           </div>

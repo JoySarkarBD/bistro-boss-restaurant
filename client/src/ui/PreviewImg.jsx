@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
 
-const PreviewImg = ({ file }) => {
-  const [preview, setPreview] = useState(null);
+const PreviewImg = ({ props }) => {
+  const { file, preview, setPreview } = props;
   const reader = new FileReader();
   reader.onload = () => {
     setPreview(reader.result);
