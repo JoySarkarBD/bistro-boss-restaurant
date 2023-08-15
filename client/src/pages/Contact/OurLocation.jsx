@@ -4,9 +4,9 @@ import { HiLocationMarker } from "react-icons/hi";
 import SectionTitle from "../../components/Shared/SectionTitle";
 
 const OurLocation = () => {
-    return (
-        <>
-           <section className='my-24'>
+  return (
+    <>
+      <section className='my-24'>
         <SectionTitle subheading='---Visit Us---' heading='OUR LOCATION' />
         <section className='body-font'>
           <div className='container px-5 py-10 mx-auto'>
@@ -17,7 +17,9 @@ const OurLocation = () => {
                     <BsPhoneVibrateFill className='text-4xl text-white' />
                   </div>
                   <div className='flex flex-col justify-center items-center mb-4 bg-[#F3F3F3] w-11/12 mx-auto h-48'>
-                    <h2 className='title-font font-medium text-3xl '>2.7K</h2>
+                    <h2 className='title-font font-medium text-lg lg:text-3xl md:text-xl sm:text-lg '>
+                      2.7K
+                    </h2>
                     <p className='leading-relaxed pt-3'>+38 (012) 34 56 789</p>
                   </div>
                 </div>
@@ -28,7 +30,7 @@ const OurLocation = () => {
                     <HiLocationMarker className='text-4xl text-white' />
                   </div>
                   <div className='flex flex-col justify-center items-center mb-4 bg-[#F3F3F3] w-11/12 mx-auto h-48'>
-                    <h2 className='title-font font-medium text-3xl '>
+                    <h2 className='title-font font-medium text-lg lg:text-3xl md:text-xl sm:text-lg '>
                       ADDRESS
                     </h2>
                     <p className='leading-relaxed pt-3'>+38 (012) 34 56 789</p>
@@ -41,7 +43,7 @@ const OurLocation = () => {
                     <FiClock className='text-4xl text-white' />
                   </div>
                   <div className='flex flex-col justify-center items-center mb-4 bg-[#F3F3F3] w-11/12 mx-auto h-48'>
-                    <h2 className='title-font font-medium text-3xl '>
+                    <h2 className='title-font font-medium text-lg lg:text-3xl md:text-xl sm:text-lg '>
                       WORKING HOURS
                     </h2>
                     <p className='leading-relaxed pt-3'>
@@ -53,9 +55,9 @@ const OurLocation = () => {
             </div>
           </div>
         </section>
-      </section> 
-        </>
-    );
+      </section>
+    </>
+  );
 };
 
 export default OurLocation;
